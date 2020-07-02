@@ -1,0 +1,36 @@
+const int N = 1e5;
+bitset <N> cal;
+vector<int>prime;
+void sieve()
+{
+	cal.set();
+	cal[0] = cal[1] = 0;
+	for (int i = 2; i < N; i++)
+	{
+		if (cal[i] == 1)
+		{
+			prime.pb(i);
+			for (int j = i * i; j < N; j += i)
+				cal[j] = 0;
+		}
+	}
+}
+void solve()
+{
+	int num;
+	cin >> num;
+	map<int, int> m;
+	int i = 0;
+	int p = prime[i++];
+	while (p * p <= num)
+	{
+		while (num % p == 0)
+		{
+			m[p]++;
+			num /= p;
+		}
+		p = prime[i++];
+	}
+	if(num!=1)
+		m[num];
+}
