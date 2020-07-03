@@ -1,0 +1,40 @@
+const int N = 1002;
+int rows, col;
+bool vis[N][N];
+int dis[N][N];
+int ways[N][N];
+int dx[4] = { -1, +1, 0, 0};
+int dy[4] = {0, 0, +1, -1};
+void bfs(int x, int y)
+{
+    queue<pair<int, int>> q;
+    vis[x][y] = 1;
+    dis[x][y] = 0;
+    ways[x][y] = 1;
+    q.push(mp(x, y));
+    while (!q.empty())
+    {
+        x = q.front().ff;
+        y = q.front().ss;
+        q.pop();
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (nx < 1 || nx > rows || ny < 1 || ny > col)
+                continue;
+            if (vis[nx][ny] == 0)
+            {
+                vis[nx][ny] = 1;
+                q.push(mp(nx, ny));
+                dis[nx][ny] = dis[x][y] + 1;
+                ways[nx][ny] += ways[x][y];
+            }
+            else
+            {
+                if (dis[x][y] + 1 == dis[nx][ny])
+                    ways[nx][ny] += ways[x][y];
+            }
+        }
+    }
+}
