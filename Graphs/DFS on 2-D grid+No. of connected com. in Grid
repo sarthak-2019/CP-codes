@@ -1,0 +1,47 @@
+const int N = 1002;
+int rows, col;
+char A[N][N];
+bool vis[N][N];
+int dx[4] = { -1, +1, 0, 0};
+int dy[4] = {0, 0, +1, -1};
+bool is_valid(int x, int y)
+{
+    if (x < 1 || x > rows || y < 1 || y > col)
+        return false;
+    // change the condition by requirement
+    if (A[x][y] == '#')
+        return false;
+    if (vis[x][y] == true)
+        return false;
+    return true;
+}
+void dfs(int r, int c)
+{
+    vis[r][c] = 1;
+    // cout << r << " " << c << endl;
+    for (int i = 0; i < 4; i++) {
+        if (is_valid(r + dx[i], c + dy[i]))
+            dfs(r + dx[i], c + dy[i]);
+    }
+    return;
+}
+void solve()
+{
+    cin >> rows >> col;
+    for (int i = 1; i <= rows; i++)
+        for (int j = 1; j <= col; j++)
+            cin >> A[i][j];
+    int c = 0;
+    for (int i = 1; i <= rows; i++) {
+        for (int j = 1; j <= col; j++) {
+            // change the condition by requirement
+            if (vis[i][j] == 0 && A[i][j] == '.')
+            {
+                c++;
+                dfs(i, j);
+            }
+        }
+    }
+    cout << c;
+}
+//https://cses.fi/problemset/task/1192
