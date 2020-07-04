@@ -1,0 +1,47 @@
+// Source must be contained in the cycle
+// If there is a presence of back edge there is a cycle
+// Apply BFS at every node to get every cycle present in the node
+const int N = 1e3 + 5;
+int vertex, edges;
+int c;
+int ans;
+vector<int> v[N];
+void bfs(int node, int num, int& ans)
+{
+    vector<int> dis(num + 1, INT_MAX);
+    queue<int> q;
+    q.push(node);
+    dis[node] = 0;
+    while (!q.empty())
+    {
+        int cur = q.front();
+        q.pop();
+        for (auto neigh : v[cur])
+        {
+            if (dis[neigh] == INT_MAX)
+            {
+                dis[neigh] = dis[cur] + 1;
+                q.push(neigh);
+            }
+            else if (dis[neigh] >= dis[cur])
+                ans = min(ans, dis[neigh] + dis[cur] + 1);
+        }
+    }
+}
+void solve()
+{
+    cin >> vertex >> edges;
+    for (int i = 0; i < edges; i++) {
+        int x, y;
+        cin >> x >> y;
+        v[x].pb(y);
+        v[y].pb(x);
+    }
+    int ans = vertex + 1;
+    for (int i = 1; i <= vertex; i++)
+        bfs(i, vertex, ans);
+    if (ans == vertex + 1)
+        cout << "NO Cycle";
+    else
+        cout << ans;
+}
