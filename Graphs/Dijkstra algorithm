@@ -1,0 +1,103 @@
+/////////////////////Basic Dijkstra Algorithm//////////////////////////////////////
+
+const int N = 1e5;
+int vertex, edges;
+int source, destination;
+vector<pair<int, int>> v[N];
+void dijkstra()
+{
+    map<int, int> distance;
+    for (int i = 1; i <= vertex; i++)
+        distance[i] = INT_MAX;
+    // Set to find a node with minimum distance
+    set<pair<int, int>> s;
+    s.insert(mp(0, source));
+    distance[source] = 0;
+    while (!s.empty())
+    {
+        auto temp = *(s.begin());
+        int node = temp.ss;
+        int nodedis = temp.ff;
+        s.erase(temp);
+        // cout << node << " " << nodedis;
+        for (auto cur : v[node])
+        {
+            if (nodedis + cur.ss < distance[cur.ff])
+            {
+                auto it = s.find(mp(distance[cur.ff], cur.ff));
+                if (it != s.end())
+                    s.erase(it);
+                distance[cur.ff] = nodedis + cur.ss;
+                s.insert(mp(distance[cur.ff], cur.ff));
+
+            }
+        }
+
+    }
+    for (auto i : distance)
+        cout << i.ff << " " << i.ss << endl;
+
+}
+void solve()
+{
+    cin >> vertex >> edges;
+    cin >> source >> destination;
+    for (int i = 0; i < edges; i++)
+    {
+        int x, y, k;
+        cin >> x >> y >> k;
+        v[x].pb(y, k);
+        v[y].pb(x, k);
+    }
+    dijkstra();
+}
+
+/////////////////////Dijkstra Algorithm with Path//////////////////////////////////////
+
+const int N = 1e5;
+int vertex, edges;
+int source, destination;
+vector<pair<int, int>> v[N];
+int parent[N];
+void dijkstra()
+{
+    map<int, int> distance;
+    for (int i = 1; i <= vertex; i++)
+        distance[i] = INT_MAX;
+    // Set to find a node with minimum distance
+    set<pair<int, int>> s;
+    s.insert(mp(0, source));
+    distance[source] = 0;
+    while (!s.empty())
+    {
+        auto temp = *(s.begin());
+        int node = temp.ss;
+        int nodedis = temp.ff;
+        s.erase(temp);
+        // cout << node << " " << nodedis;
+        for (auto cur : v[node])
+        {
+            if (nodedis + cur.ss < distance[cur.ff])
+            {
+                auto it = s.find(mp(distance[cur.ff], cur.ff));
+                if (it != s.end())
+                    s.erase(it);
+                distance[cur.ff] = nodedis + cur.ss;
+                s.insert(mp(distance[cur.ff], cur.ff));
+                parent[cur.ff] = node;
+
+            }
+        }
+    }
+    vector<int> ans;
+    int n = destination;
+    ans.pb(destination);
+    while (n != source)
+    {
+        ans.pb(parent[n]);
+        n = parent[n];
+    }
+    reverse(ans.begin(), ans.end());
+    for (auto i : ans)
+        cout << i << endl;
+}
