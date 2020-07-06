@@ -1,0 +1,46 @@
+const int N = 1e5 + 5;
+int vertex, edges;
+bool visited[N];
+bool stack1[N];
+vector<int> v[N];
+bool dfs(int n)
+{
+    visited[n] = 1;
+    stack1[n] = 1;
+    for (auto i : v[n])
+    {
+        if (!visited[i])
+        {
+            int x = dfs(i);
+            if (x)
+                return true;
+        }
+        else
+        {
+            if (stack1[i] == true)
+                return true;
+        }
+    }
+    stack1[n] = 0;
+    return 0;
+}
+void solve()
+{
+    cin >> vertex >> edges;
+    for (int i = 0; i < edges; i++) {
+        int x, y;
+        cin >> x >> y;
+        v[x].pb(y);
+    }
+    for (int i = 0; i < vertex; i++)
+    {
+        if (!visited[i])
+        {
+            if (dfs(i)) {
+                cout << "Contains Cycles";
+                return;
+            }
+        }
+    }
+    cout << "Not contain cycle";
+}
