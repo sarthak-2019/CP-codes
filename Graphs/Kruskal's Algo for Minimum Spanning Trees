@@ -1,0 +1,71 @@
+// Sort with respect to edge
+// Don't add those edges which form a cycle using DSU
+
+const int N = 1e5 + 5;
+struct data
+{
+    int vertex1;
+    int vertex2;
+    int weight;
+};
+
+data helper[N];
+int parent[N];
+
+bool comp(data s1, data s2)
+{
+    return s1.weight < s2.weight;
+}
+
+void make_parent(int num)
+{
+    for (int i = 1; i <= num; i++)
+        parent[i] = i;
+}
+
+int find(int node)
+{
+    if (node == parent[node])
+        return node;
+    else
+        return parent[node] = find(parent[node]);
+}
+
+void unite(int x, int y)
+{
+    int parent_x = find(x);
+    int parent_y = find(y);
+    if (parent_x != parent_y)
+        parent[parent_x] = parent[parent_y];
+}
+void solve()
+{
+    int vertex, edges, ans = 0;
+    cin >> vertex >> edges;
+    for (int i = 0; i < edges; i++)
+    {
+        int x, y, z;
+        cin >> x >> y >> z;
+        helper[i].vertex1 = x;
+        helper[i].vertex2 = y;
+        helper[i].weight = z;
+    }
+    sort(helper, helper + edges, comp);
+
+    make_parent(vertex);
+
+    for (int i = 0; i < edges; i++)
+    {
+        int x = helper[i].vertex1;
+        int y = helper[i].vertex2;
+        int z = helper[i].weight;
+        if (find(x) != find(y))
+        {
+            // Include all the edges which do not form the cycle
+            cout << x << " " << y << " " << z << endl;
+            ans += z;
+            unite(x, y);
+        }
+    }
+    cout << ans;
+}
