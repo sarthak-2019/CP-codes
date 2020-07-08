@@ -1,0 +1,52 @@
+// If we find two parents having same parent that means there is a cycle
+// This concept is use to find minimum Spanning Tree using Kruskal Algo.
+const int N = 1e5 + 5;
+int parent[N];
+int connected;
+void make_parent(int num)
+{
+    for (int i = 1; i <= num; i++)
+        parent[i] = i;
+    connected = num;
+}
+int find(int node)
+{
+    if (node == parent[node])
+        return node;
+    else
+        return parent[node] = find(parent[node]);
+}
+void unite(int x, int y)
+{
+    int parent_x = find(x);
+    int parent_y = find(y);
+    if (parent_x != parent_y)
+    {
+        parent[parent_x] = parent[parent_y];
+        connected--;
+    }
+}
+void solve()
+{
+    int num, k;
+    cin >> num >> k;
+    make_parent(num);
+    int flag = 0;
+    while (k--)
+    {
+        int x;
+        int y;
+        cin >> x >> y;
+        int par_x = find(x);
+        int par_y = find(y);
+        if (par_x != par_y)
+            unite(x, y);
+        else {
+            flag = 1;
+        }
+    }
+    if (flag)
+        cout << "Cycle is Present";
+    else
+        cout << "No Cycle is Present";
+}
