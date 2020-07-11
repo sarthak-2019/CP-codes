@@ -1,0 +1,66 @@
+// Single Source Shortest Path Algo.
+// Time Complexity O(Vertex*Edges)
+// Can Handle Negative Weights on *Directed Graphs unlike Dijkstra
+// Cannot be applied to an Undirected graph having negative weight
+// It is just based on relaxing the edges
+// Relaxing the edges gives distance of all possible path
+
+const int N = 1e5 + 5;
+int vertex, edges, source;
+vector<vector<int>> v;
+int flag;
+
+vector<int> bellman_ford()
+{
+    vector<int> dis(vertex + 1, INT_MAX);
+    dis[source] = 0;
+
+    // Relax all the edges n-1 times
+
+    for (int i = 0; i < vertex - 1; i++)
+    {
+        for (auto x : v)
+        {
+            int from = x[0], to = x[1], cost = x[2];
+            if (dis[from] != INT_MAX && dis[from] + cost < dis[to])
+            {
+                dis[to] = dis[from] + cost;
+            }
+        }
+    }
+    // Check for negative weight cycle
+
+
+    for (int i = 0; i < vertex - 1; i++)
+    {
+        for (auto x : v)
+        {
+            int from = x[0], to = x[1], cost = x[2];
+            if (dis[from] != INT_MAX && dis[from] + cost < dis[to])
+            {
+                flag = 1;
+            }
+        }
+    }
+    return dis;
+}
+
+void solve()
+{
+    cin >> vertex >> edges >> source;
+    for (int i = 0; i < edges; i++)
+    {
+        int v1, v2, cost;
+        cin >> v1 >> v2 >> cost;
+        v.push_back({v1, v2, cost});
+    }
+    vector<int> distance = bellman_ford();
+
+    if (flag) {
+        cout << "Negative Weight cycle";
+        return;
+    }
+
+    for (int i = 1; i <= vertex; i++)
+        cout << distance[i] << endl;
+}
