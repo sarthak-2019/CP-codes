@@ -1,6 +1,7 @@
 // Recurrence Used
-
+// When n is even 
 // f(2 * k) = f(k) * f(k) + f(k - 1) * f(k - 1)
+// When n is odd 
 // f(2 * k + 1) = f(k) * f(k + 1) + f(k - 1) * f(k)
 
 #define mod             1000000007
