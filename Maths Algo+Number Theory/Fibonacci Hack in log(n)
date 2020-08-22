@@ -26,5 +26,5 @@ void solve ()
     int n;
     cin >> n;
     m[0] = m[1] = 1;
-    cout << fib(n);
+    cout << fib(n-1);
 }
