@@ -1,0 +1,30 @@
+// Recurrence Used
+
+// f(2 * k) = f(k) * f(k) + f(k - 1) * f(k - 1)
+// f(2 * k + 1) = f(k) * f(k + 1) + f(k - 1) * f(k)
+
+#define mod             1000000007
+#define int             long long
+map<int, int> m;
+
+int fib(int n)
+{
+    if (m.count(n))
+        return m[n];
+    int k = n / 2;
+    if (n % 2 == 0)
+    {   // n=2*k
+        return m[n] = (fib(k) * fib(k) + fib(k - 1) * fib(k - 1)) % mod;
+    }
+    else
+    {   // n=2*k+1
+        return m[n] = (fib(k) * fib(k + 1) + fib(k - 1) * fib(k)) % mod;
+    }
+}
+void solve ()
+{
+    int n;
+    cin >> n;
+    m[0] = m[1] = 1;
+    cout << fib(n);
+}
