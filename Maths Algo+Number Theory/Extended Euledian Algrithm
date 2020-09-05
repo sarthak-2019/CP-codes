@@ -1,0 +1,35 @@
+int gcd(int a, int b) {
+
+    if (b == 0)
+        return a;
+    else
+        return (b, a % b);
+}
+int x, y, GCD;
+void extended_euledian(int a, int b)
+{
+    // Base Case
+    if (b == 0) {
+        x = 1;
+        y = 0;
+        GCD = a;
+        return;
+    }
+    // Recursive Case
+    extended_euledian(b, a % b);
+    int cur_x = y;
+    int cut_y = x - (a / b) * y;
+
+    // If u want to print all x1 and y1 involve then
+    cout << cur_x << " " << cut_y << endl;
+
+    x = cur_x;
+    y = cut_y;
+
+}
+void solve()
+{
+    // Solve equation 18x+30y=6
+    extended_euledian(18, 30);
+    cout << x << " " << y;
+}
