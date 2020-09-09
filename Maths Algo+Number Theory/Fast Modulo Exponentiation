@@ -1,0 +1,14 @@
+int cal(int a, int b, int m)
+{
+	int p = 1;
+	while (b > 0) {
+
+		bool bit = (b & 1);
+		if (bit) {
+			p = (p * a) % m;
+		}
+		b = b >> 1;
+		a = (a * a) % m;
+	}
+	return p;
+}
