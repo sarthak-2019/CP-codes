@@ -1,0 +1,26 @@
+// Given Equation of the form (a.b)%m=1;
+// We have to find b[Modulo Multiplicative inverse]
+// It exist only when GCD of(a,m)=1;
+
+int x, y;
+void extended_eucledian(int a, int b)
+{
+	if (b == 0) {
+		x = 1;
+		y = 0;
+		return;
+	}
+	extended_eucledian(b, a % b);
+	int cur_x = y;
+	int cut_y = x - (a / b) * y;
+
+	x = cur_x;
+	y = cut_y;
+}
+void solve()
+{
+	int a, m;
+	cin >> a >> m;
+	extended_eucledian(a, m);
+	cout << (x + m) % m;
+}
