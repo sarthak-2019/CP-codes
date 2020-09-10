@@ -1,0 +1,58 @@
+const int N = 1e6;
+bitset <N> cal;
+vector<int>prime;
+void sieve()
+{
+	cal.set();
+	cal[0] = cal[1] = 0;
+	for (int i = 2; i < N; i++)
+	{
+		if (cal[i] == 1)
+		{
+			prime.pb(i);
+			for (int j = i * i; j < N; j += i)
+				cal[j] = 0;
+		}
+	}
+}
+map<int, int> divisor(int num)
+{
+	map<int, int> m;
+	int i = 0;
+	int p = prime[i++];
+	while (p * p <= num)
+	{
+		while (num % p == 0)
+		{
+			m[p]++;
+			num /= p;
+		}
+		p = prime[i++];
+	}
+	if (num != 1)
+		m[num]++;
+	return m;
+}
+int euler_function()
+{
+	int num;
+	cin>>num;
+	if (cal[num] == 1) {
+		cout << num - 1 << endl;
+		return;
+	}
+	if (num == 1) {
+		cout << 1 << endl;
+		return;
+	}
+	map<int, int> m = divisor(num);
+	vector<int> v;
+	for (auto i : m)
+		v.pb(i.ff);
+
+	int res = num;
+	for (auto i : v) {
+		res -= res / i;
+	}
+	return res;
+}
