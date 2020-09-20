@@ -1,0 +1,56 @@
+// Find shortest path between all pair of vertices
+// No need of choosing a source vertex
+// Works with negative edges
+// Can detect negative weight cycle
+// Dp based algo (v^3 complexity)
+const int N = 1e3;
+int vertex, edges;
+int dis[N][N];
+void FloydWarshall()
+{
+	for (int k = 1; k <= vertex; k++) {
+
+		for (int i = 1; i <= vertex; i++) {
+
+			for (int j = 1; j <= vertex; j++) {
+
+				if (dis[i][k] == INT_MAX)
+					continue;
+				if (dis[k][j] == INT_MAX)
+					continue;
+				dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
+			}
+		}
+	}
+}
+void solve()
+{
+	cin >> vertex >> edges;
+
+	for (int i = 1; i <= vertex; i++) {
+
+		for (int j = 1; j <= vertex; j++) {
+
+			if (i == j) {
+				dis[i][j] = 0;
+			}
+			else
+				dis[i][j] = INT_MAX;
+		}
+	}
+	for (int i = 0; i < edges; i++) {
+
+		int u, v, w;
+		cin >> u >> v >> w;
+		dis[u][v] = w;
+	}
+	FloydWarshall();
+	for (int i = 1; i <= vertex; i++) {
+
+		for (int j = 1; j <= vertex; j++) {
+
+			cout << dis[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
