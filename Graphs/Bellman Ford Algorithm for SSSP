@@ -2,65 +2,59 @@
 // Time Complexity O(Vertex*Edges)
 // Can Handle Negative Weights on *Directed Graphs unlike Dijkstra
 // Cannot be applied to an Undirected graph having negative weight
-// It is just based on relaxing the edges
-// Relaxing the edges gives distance of all possible path
-
-const int N = 1e5 + 5;
-int vertex, edges, source;
-vector<vector<int>> v;
-int flag;
-
-vector<int> bellman_ford()
+// 1-Take distance of all vertices from Source as Infinity
+// 2-Relax all edges (V-1) times
+// 3-Detect a negative weight cycle
+int vertex, edges;
+vector<vector<int>> graph;
+bool flag = 0;
+vector<int> bellman_ford(int src)
 {
-    vector<int> dis(vertex + 1, INT_MAX);
-    dis[source] = 0;
+	vector<int> dis(vertex + 1, INT_MAX);
+	dis[src] = 0;
+	for (int i = 0; i < vertex - 1; i++) {
 
-    // Relax all the edges n-1 times
+		for (auto edge : graph) {
 
-    for (int i = 0; i < vertex - 1; i++)
-    {
-        for (auto x : v)
-        {
-            int from = x[0], to = x[1], cost = x[2];
-            if (dis[from] != INT_MAX && dis[from] + cost < dis[to])
-            {
-                dis[to] = dis[from] + cost;
-            }
-        }
-    }
-    // Check for negative weight cycle
+			int u = edge[0];
+			int v = edge[1];
+			int w = edge[2];
 
+			if (dis[u] != INT_MAX && dis[u] + w < dis[v]) {
+				dis[v] = dis[u] + w;
+			}
+		}
+	}
+	for (auto edge : graph) {
 
-    for (int i = 0; i < vertex - 1; i++)
-    {
-        for (auto x : v)
-        {
-            int from = x[0], to = x[1], cost = x[2];
-            if (dis[from] != INT_MAX && dis[from] + cost < dis[to])
-            {
-                flag = 1;
-            }
-        }
-    }
-    return dis;
+		int u = edge[0];
+		int v = edge[1];
+		int w = edge[2];
+
+		if (dis[u] != INT_MAX && dis[u] + w < dis[v]) {
+			flag = 1;
+		}
+	}
+	return dis;
 }
-
 void solve()
 {
-    cin >> vertex >> edges >> source;
-    for (int i = 0; i < edges; i++)
-    {
-        int v1, v2, cost;
-        cin >> v1 >> v2 >> cost;
-        v.push_back({v1, v2, cost});
-    }
-    vector<int> distance = bellman_ford();
+	cin >> vertex >> edges;
+	for (int i = 0; i < edges; i++) {
 
-    if (flag) {
-        cout << "Negative Weight cycle";
-        return;
-    }
+		int u, v, wt;
+		cin >> u >> v >> wt;
+		graph.push_back({u, v, wt});
 
-    for (int i = 1; i <= vertex; i++)
-        cout << distance[i] << endl;
+	}
+
+	vector<int> distance = bellman_ford(1);
+
+	if (flag) {
+		cout << "Negative Weight cycle";
+		return;
+	}
+
+	for (int i = 1; i <= vertex; i++)
+		cout << distance[i] << endl;
 }
