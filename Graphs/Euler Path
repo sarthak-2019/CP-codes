@@ -1,0 +1,83 @@
+// Euler Tour(1)==Print the node as many times  we visit it(2*n-1)
+// Euler Tour(2)==Print the node as we enter and exit (2*n)
+// Euler Tour(3)==Print the node on first visit and increase timer only once(n)
+const int N = 1e5;
+vector<int> v[N];
+int vertex;
+int time_in[N];
+int time_out[N];
+int timer = 0;
+void Euler_Tour_1(int node, int par) {
+
+	cout << node << " ";
+	// time_in[node] = timer;
+	// time_out[node] = timer++;
+	for (auto cur : v[node]) {
+
+		if (cur != par) {
+			Euler_Tour_1(cur, node);
+			cout << node << " ";
+			// time_out[node] = timer++;
+		}
+	}
+	return;
+}
+void Euler_Tour_2(int node, int par) {
+
+	cout << node << " ";
+	// time_in[node] = timer++;
+	for (auto cur : v[node]) {
+
+		if (cur != par) {
+			Euler_Tour_2(cur, node);
+		}
+	}
+	// time_out[node] = timer++;
+	cout << node << " ";
+	return;
+}
+void Euler_Tour_3(int node, int par) {
+
+	cout << node << " ";
+	timer++;
+	time_in[node] = timer;
+	for (auto cur : v[node]) {
+
+		if (cur != par) {
+			Euler_Tour_3(cur, node);
+		}
+	}
+	time_out[node] = timer;
+	return;
+}
+// This fuction helps to check whether x is an ancestor of y
+bool is_ancestor(int x, int y)
+{
+	if (time_in[x] <= time_in[y] && time_out[x] >= time_out[y])
+		return 1;
+	else
+		return 0;
+}
+void solve ()
+{
+	cin >> vertex;
+	for (int i = 0; i < vertex - 1; i++) {
+
+		int x, y;
+		cin >> x >> y;
+		v[x].pb(y);
+		v[y].pb(x);
+	}
+	timer = 1;
+	Euler_Tour_1(1, 0);
+	cout << endl;
+	timer = 1;
+	Euler_Tour_2(1, 0);
+	cout << endl;
+	timer = 0;
+	Euler_Tour_3(1, 0);
+	cout << endl;
+	for (int i = 1; i <= vertex; i++) {
+		cout << i << " " << time_in[i] << " " << time_out[i] << endl;
+	}
+}
