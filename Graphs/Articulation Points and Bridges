@@ -1,0 +1,68 @@
+// Discovery Time->
+// The number of nodes discovered,before seeing the current node+1.
+// Lowest Time->
+// Minimum Discovery Time of a node that a backedge is pointing in a subtree of x
+// Conditions to be checked->
+// 1-If there is a backedge from the current node
+// 2-Minimum of lowest time of all its children
+
+const int N = 1e5;
+vector<int>v[N];
+int vertex, edges;
+int disc[N], low[N];
+int vis[N];
+int timer;
+set<int> articulation_points;
+vector<pair<int, int>> bridges;
+void dfs(int node, int par) {
+
+	vis[node] = 1;
+	disc[node] = low[node] = timer;
+	timer++;
+	int no_child = 0;
+	for (auto cur : v[node]) {
+
+		if (!vis[cur]) {
+
+			dfs(cur, node);
+			no_child++;
+			low[node] = min(low[node], low[cur]);
+
+			// Articulation Point
+			// Seperate case for root(par!=0)
+			if (par != 0 && low[cur] >= disc[node]) {
+				articulation_points.insert(node);
+			}
+			// Bridges
+			if (low[cur] > disc[node]) {
+				bridges.pb(node, cur);
+			}
+		}
+		else if (cur != par) {
+
+			// Backedge
+			low[node] = min(low[node], disc[cur]);
+		}
+	}
+	// Separate case for root to be an articulation point
+	// Check in DFS tree
+	if (par == 0 && no_child >= 2) {
+
+		articulation_points.insert(node);
+	}
+}
+void solve()
+{
+	cin >> vertex >> edges;
+	for (int i = 0; i < edges; i++) {
+
+		int x, y;
+		cin >> x >> y;
+		v[x].pb(y);
+		v[y].pb(x);
+	}
+	timer = 1;
+	dfs(1, 0);
+	for (auto i : articulation_points)
+		cout << i << " ";
+}
