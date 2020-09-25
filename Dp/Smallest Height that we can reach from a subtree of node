@@ -1,0 +1,42 @@
+const int N = 1e5;
+vector<int> v[N];
+int vertex, edges;
+bool vis[N];
+int dp[N];
+int depth[N];
+void dfs(int node, int par, int dep) {
+
+	vis[node] = 1;
+	dp[node] = dep;
+	depth[node] = dep;
+	for (auto cur : v[node]) {
+
+		if (!vis[cur]) {
+
+			dfs(cur, node, dep + 1);
+			dp[node] = min(dp[node], dp[cur]);
+		}
+		else if (cur != par) {
+
+			// Backedge
+			dp[node] = min(dp[node], depth[cur]);
+		}
+	}
+}
+void solve()
+{
+	cin >> vertex >> edges;
+	for (int i = 0; i < edges; i++) {
+
+		int x, y;
+		cin >> x >> y;
+		v[x].pb(y);
+		v[y].pb(x);
+	}
+	// Root 1
+	memset(vis, 0, sizeof(vis));
+	memset(depth, 0, sizeof(depth));
+	dfs(1, 0, 0);
+	for (int i = 1; i <= vertex; i++)
+		cout << i << " " << dp[i] << endl;
+}
