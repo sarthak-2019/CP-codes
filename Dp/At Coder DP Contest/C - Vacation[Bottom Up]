@@ -1,0 +1,35 @@
+void solve ()
+{
+	int num;
+	cin >> num;
+	int A[num + 1][4];
+	for (int i = 1; i <= num; i++) {
+
+		for (int j = 1; j <= 3; j++) {
+
+			cin >> A[i][j];
+		}
+	}
+	int dp[num][4];
+	memset(dp, 0, sizeof(dp));
+	dp[1][1] = A[1][1];
+	dp[1][2] = A[1][2];
+	dp[1][3] = A[1][3];
+
+	for (int i = 2; i <= num; i++) {
+
+		for (int j = 1; j <= 3; j++) {
+
+			if (j == 1) {
+				dp[i][j] = A[i][j] + max(dp[i - 1][2], dp[i - 1][3]);
+			}
+			if (j == 2) {
+				dp[i][j] = A[i][j] + max(dp[i - 1][1], dp[i - 1][3]);
+			}
+			if (j == 3) {
+				dp[i][j] = A[i][j] + max(dp[i - 1][1], dp[i - 1][2]);
+			}
+		}
+	}
+	cout << max(dp[num][1], max(dp[num][2], dp[num][3]));
+}
