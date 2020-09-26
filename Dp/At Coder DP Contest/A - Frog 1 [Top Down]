@@ -1,0 +1,26 @@
+int cal(int A[], int num, int dp[])
+{
+	if (num == 2) {
+		return dp[num] = abs(A[num] - A[num - 1]);
+	}
+	if (dp[num] != -1)
+		return dp[num];
+
+
+	int x = cal(A, num - 2, dp) + abs(A[num] - A[num - 2]);
+	int y = cal(A, num - 1, dp) + abs(A[num] - A[num - 1]);
+	return dp[num] = min(x, y);
+}
+void solve ()
+{
+	int num;
+	cin >> num;
+	int A[num + 2];
+	for (int i = 1; i <= num; i++)
+		cin >> A[i];
+	int dp[num + 1];
+	memset(dp, -1, sizeof(dp));
+	dp[0] = 0;
+	dp[1] = 0;
+	cout << cal(A, num, dp);
+}
