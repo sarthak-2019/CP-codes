@@ -1,0 +1,25 @@
+void solve ()
+{
+	int num, k;
+	cin >> num >> k;
+	int A[num + 1];
+	for (int i = 1; i <= num; i++)
+		cin >> A[i];
+	int dp[num + 1];
+	dp[0] = 0;
+	dp[1] = 0;
+	for (int i = 2; i <= num; i++) {
+
+		int mn = inf;
+		for (int j = 1; j <= k; j++) {
+
+			if (i - j >= 1) {
+
+				int x = dp[i - j] + abs(A[i] - A[i - j]);
+				mn = min(mn, x);
+			}
+		}
+		dp[i] = mn;
+	}
+	cout << dp[num];
+}
