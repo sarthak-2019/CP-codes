@@ -1,0 +1,33 @@
+int cal(int A[], int num, int dp[], int k) {
+
+	if (num == 2) {
+		return dp[num] = abs(A[num] - A[num - 1]);
+	}
+	if (dp[num] != -1)
+		return dp[num];
+
+	int mn = INT_MAX;
+
+	for (int i = 1; i <= k; i++) {
+
+		if (num - i >= 1) {
+
+			int x = cal(A, num - i, dp, k) + abs(A[num] - A[num - i]);
+			mn = min(mn, x);
+		}
+	}
+	return dp[num] = mn;
+}
+void solve ()
+{
+	int num, k;
+	cin >> num >> k;
+	int A[num + 1];
+	for (int i = 1; i <= num; i++)
+		cin >> A[i];
+	int dp[num + 1];
+	memset(dp, -1, sizeof(dp));
+	dp[0] = 0;
+	dp[1] = 0;
+	cout << cal(A, num, dp, k);
+}
