@@ -1,6 +1,6 @@
 const int N = 1e5 + 5;
 int vertex, edges;
-vector<int> val(N), v[N], rev[N];
+vector<int> v[N], rev[N];
 bool vis[N];
 vector<vector<int>> scc;
 vector<int> temp, order;
@@ -58,7 +58,6 @@ void solve ()
     int wt[c + 2] = {0};
     set<pair<int, int>> s;
     for (int i = 1; i <= vertex; i++) {
-        wt[par[i]] += val[i];
         for (auto cur : v[i]) {
 
             if (par[cur] != par[i] && s.count(mp(par[i], par[cur])) != 1) {
