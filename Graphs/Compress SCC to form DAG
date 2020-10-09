@@ -1,0 +1,76 @@
+const int N = 1e5 + 5;
+int vertex, edges;
+vector<int> val(N), v[N], rev[N];
+bool vis[N];
+vector<vector<int>> scc;
+vector<int> temp, order;
+map<int, int> par;
+// Size of new SCC graph
+int c;
+vector<int>compressed_graph[N];
+void dfs1(int node)
+{
+    vis[node] = 1;
+    for (auto cur : v[node]) {
+
+        if (!vis[cur])
+            dfs1(cur);
+    }
+    order.pb(node);
+}
+void dfs2(int node)
+{
+    vis[node] = 1;
+    temp.pb(node);
+    par[node] = c;
+    for (auto cur : rev[node]) {
+
+        if (!vis[cur])
+            dfs2(cur);
+    }
+}
+void solve ()
+{
+    read(vertex, edges);
+    for (int i = 0; i < edges; i++) {
+
+        int x, y;
+        read(x, y);
+        v[x].pb(y);
+        rev[y].pb(x);
+    }
+    for (int i = 1; i <= vertex; i++) {
+
+        if (!vis[i])
+            dfs1(i);
+    }
+    mem(vis, 0);
+    reverse(all(order));
+    for (auto i : order) {
+
+        if (!vis[i]) {
+            temp.clear();
+            c++;
+            dfs2(i);
+            scc.pb(temp);
+        }
+    }
+    int wt[c + 2] = {0};
+    set<pair<int, int>> s;
+    for (int i = 1; i <= vertex; i++) {
+        wt[par[i]] += val[i];
+        for (auto cur : v[i]) {
+
+            if (par[cur] != par[i] && s.count(mp(par[i], par[cur])) != 1) {
+                compressed_graph[par[i]].pb(par[cur]);
+                s.insert(mp(par[i], par[cur]));
+            }
+        }
+    }
+    for (int i = 1; i <= c; i++) {
+        cout << i << endl;
+        for (auto j : compressed_graph[i])
+            cout << j << " ";
+        cout << endl;
+    }
+}
