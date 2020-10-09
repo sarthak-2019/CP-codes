@@ -55,7 +55,6 @@ void solve ()
             scc.pb(temp);
         }
     }
-    int wt[c + 2] = {0};
     set<pair<int, int>> s;
     for (int i = 1; i <= vertex; i++) {
         for (auto cur : v[i]) {
