@@ -31,11 +31,9 @@ void solve()
       }
     }
   }
-  
+
   int ans = 0;
   for (int i = 0; i <= sum_val; i++) {
-    if (dp[n][i] == -1)
-      continue;
     if (dp[n][i] <= w)
       ans = max(ans, i);
   }
