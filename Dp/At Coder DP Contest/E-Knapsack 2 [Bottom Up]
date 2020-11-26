@@ -18,7 +18,7 @@ void solve()
     sum_val += val[i];
   }
   for (int i = 0; i <= sum_val; i++) {
-    dp[1][i] = inf;
+    dp[1][i] = 2000000000000000;
   }
   dp[1][0] = 0;
   dp[1][val[1]] = weight[1];
