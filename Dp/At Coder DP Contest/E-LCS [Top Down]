@@ -1,0 +1,58 @@
+// Take two strings(c,s)
+// if(c1==s1)-->1+lcs(c2...cn&&s2...sn)
+// if(c1!=s2)--->max(lcs(c1...cn&&s2...sn),lcs(c2...cn&&s1...sn))
+
+
+const int N=3e3+5;
+int dp[N][N];
+string s1,s2;
+
+string get_lcs(int n)
+{
+  string ans="";
+  int i=0,j=0;
+  while(n>0){
+    if(s1[i]==s2[j]){
+      ans+=s1[i];
+      i++;
+      j++;
+      n--;
+    }
+    else
+    {
+      if(dp[i+1][j]>=dp[i][j+1])
+        i++;
+      else
+        j++;
+    }
+  }
+  return ans;
+}
+int cal_dp(int i,int n1,int j,int n2)
+{
+  if(i>=n1||j>=n2)
+  return 0;
+
+  if(dp[i][j]!=-1)
+    return dp[i][j];
+
+  if(s1[i]==s2[j])
+    return dp[i][j]=1+cal_dp(i+1,n1,j+1,n2);
+
+  // lcs(c1...cn&&s2...sn)
+  int case1=cal_dp(i,n1,j+1,n2);
+
+  // lcs(c2...cn&&s1...sn)
+  int case2=cal_dp(i+1,n1,j,n2);
+  return dp[i][j]=max(case1,case2);
+
+}
+void solve()
+{
+  cin>>s1>>s2;
+  int a=s1.length();
+  int b=s2.length();
+  memset(dp,-1,sizeof(dp));
+  int lcs_len=cal_dp(0,a,0,b);
+  cout<<get_lcs(lcs_len);
+}
