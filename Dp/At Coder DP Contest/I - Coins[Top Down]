@@ -1,0 +1,40 @@
+// dp[n][x]=probablity of getting heads(>=x) if toss first n coins
+// It has 2 states
+// 1-If we get head on nth state T1=pn*dp[n-1][x-1]
+// 2-if we get tail on nth state T2=(1-pn)*dp[n-1][x]
+// dp[n][x]=T1+T2
+
+#define ps(x,y)         fixed<<setprecision(y)<<x
+const int N=3e3+5;
+double dp[N][N];
+double prob[N];
+
+double cal_dp(int coins,int req)
+{
+  if(coins==0)
+    dp[coins][req]=0.0;
+  if(req==0)
+    dp[coins][req]=1.0;
+
+  if(dp[coins][req]!=-1.0)
+    return dp[coins][req];
+
+  double t1=prob[coins]*cal_dp(coins-1,req-1);
+  double t2=(1-prob[coins])*cal_dp(coins-1,req);
+  return dp[coins][req]=t1+t2;
+}
+void solve()
+{
+  int coins;
+  cin>>coins;
+  int req=coins/2+coins%2;
+  for(int i=1;i<=coins;i++)
+    cin>>prob[i];
+
+  for(int i=0;i<=coins;i++){
+     for(int j=0;j<=req;j++)
+      dp[i][j]=-1.0;
+  }
+  double ans=cal_dp(coins,req);
+  cout<<ps(ans,9);
+}
