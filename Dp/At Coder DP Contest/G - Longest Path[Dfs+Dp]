@@ -1,0 +1,45 @@
+const int N=1e5+5;
+
+vector<int> v[N];
+int vertex,edges,dp[N];
+bool vis[N];
+
+void dfs(int node)
+{
+  vis[node]=1;
+  bool f=0;
+  int temp=-2000000000;
+  for(auto cur:v[node]){
+      f=1;
+      if(!vis[cur]){
+        dfs(cur);
+        temp=max(temp,dp[cur]);
+      }
+      else
+        temp=max(temp,dp[cur]);
+  }
+  dp[node]=temp+1;
+  if(!f)
+    dp[node]=0;
+}
+
+void solve()
+{
+  cin>>vertex>>edges;
+  for(int i=0;i<edges;i++){
+     int x,y;
+     read(x,y);
+     v[x].pb(y);
+  }
+
+  for(int i=1;i<=vertex;i++){
+    if(!vis[i])
+      dfs(i);
+  }
+  
+  int ans=-2000000000;
+  for(int i=1;i<=vertex;i++)
+    ans=max(ans,dp[i]);
+
+  cout<<ans;
+}
