@@ -1,0 +1,50 @@
+// dp[i][j]--Number of paths starting at (i,j) and ending at (n,m)
+// dp[i][j]=dp[i+1][j]+dp[i][j+1]
+
+#define mod             1000000007
+const int N=1e3+5;
+int n,m;
+char A[N][N];
+int dp[N][N];
+
+bool check(int i,int j){
+  if(A[i][j]=='#')
+    return false;
+  else
+    return true;
+}
+int cal_dp(int i,int j)
+{
+  if(i>n||j>m)
+    return dp[i][j]=0;
+  if(i==n-1&&j==m&&check(i,j))
+    return dp[i][j]=1;
+  if(i==n-1&&j==m&&!check(i,j))
+    return dp[i][j]=0;
+  if(i==n&&j==m-1&&check(i,j))
+    return dp[i][j]=1;
+  if(i==n&&j==m-1&&!check(i,j))
+    return dp[i][j]=0;
+
+  if(dp[i][j]!=-1)
+    return dp[i][j];
+
+  if(!check(i,j))
+    return dp[i][j]=0;
+
+  dp[i][j]=(cal_dp(i+1,j)+cal_dp(i,j+1))%mod;
+
+  return dp[i][j];
+}
+
+void solve()
+{
+  cin>>n>>m;
+  for(int i=1;i<=n;i++){
+     for(int j=1;j<=m;j++){
+         cin>>A[i][j];
+     }
+  }
+  memset(dp,-1,sizeof(dp));
+  cout<<cal_dp(1,1);
+}
