@@ -1,0 +1,54 @@
+// Take two strings(c,s)
+// if(c1==s1)-->1+lcs(c2...cn&&s2...sn)
+// if(c1!=s2)--->max(lcs(c1...cn&&s2...sn),lcs(c2...cn&&s1...sn))
+
+
+const int N=3e3+5;
+int dp[N][N];
+string s1,s2;
+
+string get_lcs(int n)
+{
+  string ans="";
+  int i=s1.length(),j=s2.length();
+  while(n>0){
+    if(s1[i-1]==s2[j-1]){
+      ans+=s1[i-1];
+      i--;
+      j--;
+      n--;
+    }
+    else
+    {
+      if(dp[i-1][j]>=dp[i][j-1])
+        i--;
+      else
+        j--;
+    }
+  }
+  reverse(ans.begin(),ans.end());
+  return ans;
+}
+void solve()
+{
+  cin>>s1>>s2;
+  int a=s1.length();
+  int b=s2.length();
+
+  for(int i=0;i<=a;i++)
+  {
+     for(int j=0;j<=b;j++){
+        if(i==0||j==0){
+           dp[i][j]=0;
+           continue;
+        }
+        if(s1[i-1]==s2[j-1]){
+           dp[i][j]=1+dp[i-1][j-1];
+        }
+        else
+          dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+     }
+  }
+  int lcs_len=dp[a][b];
+  cout<<get_lcs(lcs_len);
+}
