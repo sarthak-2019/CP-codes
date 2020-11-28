@@ -1,0 +1,45 @@
+// We have to maximize the value of X and Y
+// Player 1 will try to maximize the value of X on his turn
+// Player 2 will try to minimize the value of X on his turn
+
+
+const int N=3e3+5;
+int dp[N][N],A[N];
+
+int cal_dp(int l,int u,int player)
+{
+
+  if(l>u)
+    return dp[l][u]=0;
+  if(dp[l][u]!=-1)
+    return dp[l][u];
+
+  if(player==1){
+  int case1=A[l]+cal_dp(l+1,u,0);
+  int case2=A[u]+cal_dp(l,u-1,0);
+  return dp[l][u]=max(case1,case2);
+  }
+   else {
+  int case1=cal_dp(l+1,u,1);
+  int case2=cal_dp(l,u-1,1);
+  return dp[l][u]=min(case1,case2);
+  }
+}
+
+void solve()
+{
+  int num,sum=0;
+  cin>>num;
+
+  for(int i=1;i<=num;i++){
+    cin>>A[i];
+    sum+=A[i];
+  }
+  memset(dp,-1,sizeof(dp));
+
+  int score_x=cal_dp(1,num,1);
+  int score_y=sum-score_x;
+
+  cout<<score_x-score_y;
+
+}
