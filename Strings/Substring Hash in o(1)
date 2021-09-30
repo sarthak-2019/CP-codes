@@ -1,0 +1,51 @@
+#define int             long long
+#define mod             1000000007
+int pow(int a, int b, int m)
+{
+  int res = 1;
+  while (b > 0)
+  {
+    if (b % 2)
+      res = (res * a) % m;
+    a = (a * a) % m;
+    b >>= 1;
+  }
+  return res;
+}
+int modinv(int k, int m)
+{
+  return pow(k, m - 2, m);
+}
+/**********CODE BEGINS*************/
+const int N = 1e6 + 5;
+int dp[N];
+int inv[N];
+void init(string s) {
+
+  int p = 31;
+  int p_power = 1;
+  inv[0] = 1;
+  dp[0] = (s[0] - 'a' + 1);
+
+  for (int i = 1; i < s.length(); i++) {
+    p_power = (p_power * p) % mod;
+    inv[i] = modinv(p_power, mod);
+    dp[i] = (dp[i - 1] + (s[i] - 'a' + 1) * p_power) % mod;
+  }
+
+}
+int substringHash(int L , int R)
+{
+  int result = dp[R];
+
+  if (L > 0) result -= dp[L - 1];
+
+  result = (result * inv[L]) % mod;
+
+  return result;
+}
+void solve()
+{
+  init("sarthak");
+  cout << substringHash(6, 6);
+}
