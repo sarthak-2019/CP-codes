@@ -1,0 +1,15 @@
+#define int             long long
+#define mod             1000000007
+int getHash(string s) {
+  int value = 0;
+  int p = 31;
+  int p_power = 1;
+
+  for (char ch : s)
+  {
+    value = (value + (ch - 'a' + 1) * p_power) % mod;
+    p_power = (p_power * p) % mod;
+  }
+
+  return value;
+}
