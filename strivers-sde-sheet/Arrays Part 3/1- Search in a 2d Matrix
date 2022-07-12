@@ -1,1 +1,28 @@
 // https://leetcode.com/problems/search-a-2d-matrix/
+
+// Approach 1
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n=matrix.size();
+        int m=matrix[0].size();
+        
+        int l=0;
+        int u=m-1;
+        
+        while(u>=0&&l<n){
+            if(matrix[l][u]==target){
+                return true;
+            }
+            if(target<matrix[l][u])
+                u--;
+            else
+                l++;
+        }
+        return false;
+    }
+};
+
+
+// Approach 2 [Using Binary Serach]
