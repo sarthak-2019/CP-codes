@@ -23,5 +23,3 @@ vector<int> Solution::repeatedNumber(const vector<int> &A) {
     ret[1] = retB;
     return ret;
 }
-
-// Approach 2
