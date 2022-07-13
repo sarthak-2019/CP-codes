@@ -1,1 +1,49 @@
 // https://leetcode.com/problems/majority-element-ii/
+
+
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        vector<int> ans;
+        int element1=-2147483645;
+        int element2=-2147483645;
+        int count1=0;
+        int count2=0;
+        int n=nums.size();
+        for(auto i:nums){
+            if(i==element1)
+                count1++;
+            else if(i==element2)
+                count2++;
+            else if(count1==0){
+                element1=i;
+                count1++;
+            }
+            else if(count2==0){
+                element2=i;
+                count2++;
+            }
+            else{
+                count1--;
+                count2--;
+            }
+        }
+        int c1=0;
+        int c2=0;
+        for(auto i:nums){
+            if(i==element1){
+                c1++;
+            }
+            if(i==element2){
+                c2++;
+            }
+        }
+        if(c1>n/3){
+            ans.push_back(element1);
+        }
+        if(c2>n/3){
+            ans.push_back(element2);
+        }
+        return ans;
+    }
+};
