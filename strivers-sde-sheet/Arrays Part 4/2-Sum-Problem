@@ -1,0 +1,79 @@
+//https://leetcode.com/problems/two-sum/
+
+
+#define endl            "\n"
+#define ff              first
+#define ss              second
+#define pb              emplace_back
+#define mp              make_pair
+#define pll             pair<int,int>
+#define vll             vector<int>
+#define vpll            vector<pair<int,int>>
+#define all(c)          (c).begin(), (c).end()
+#define bs              binary_search
+#define pqb             priority_queue<int>
+#define setbits(x)      __builtin_popcountll(x)
+#define mod             1000000007
+#define mem(arr,x)      memset(arr,x,sizeof(arr))
+#define pi              3.14159265358979323846
+#define inf             2000000000000000000
+#define ps(x,y)         fixed<<setprecision(y)<<x
+#define test(x)         int x; cin>>x;while(x--)
+
+const int d4i[4] = { -1, 0, 1, 0};
+const int d4j[4] = {0, 1, 0, -1};
+const int d8i[8] = { -1, -1, 0, 1, 1, 1, 0, -1};
+const int d8j[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+int pow(int a, int b)
+{
+  int res = 1;
+  while (b > 0)
+  {
+    if (b % 2)
+      res = (res * a);
+    a = (a * a);
+    b >>= 1;
+  }
+  return res;
+}
+int ncr(int  n, int k)
+{ if (k == 0)
+    return 1;
+  if (k > n - k)
+    k = n - k;
+  int a = 1, b = 1, d;
+  while (k)
+  { a *= n; b *= k;
+    d = __gcd(a, b);
+    a /= d; b /= d;
+    n--; k--;
+  }
+  return a;
+}
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vll ans;
+        map<int,vll> m;
+        for(int i=0;i<nums.size();i++)
+            m[nums[i]].pb(i);
+        for(int i=0;i<nums.size();i++){
+            int x=target-nums[i];
+            if(x!=nums[i]){
+                if(m.find(x)!=m.end()){
+                    ans.pb(i);
+                    ans.pb(m[x][0]);
+                    break;
+                }
+            }
+            if (x==nums[i]){
+                if(m[x].size()>=2){
+                    ans.pb(m[x][0]);
+                    ans.pb(m[x][1]);
+                    break;
+                }
+            }
+        }
+      return ans;
+    }
+};
