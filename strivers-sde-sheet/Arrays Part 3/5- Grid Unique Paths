@@ -24,3 +24,20 @@ public:
     }
 };
 
+// Approach 2 [Combinatorics Solution]
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        int total=m+n-2;
+        int ways=m-1;
+        double ans=1.0;
+        int c=1;
+        for(int i=total-ways+1;i<=total;i++){
+            ans=ans*i;
+            ans/=c;
+            c++;
+        }
+        return (int) ans;
+    }
+};
