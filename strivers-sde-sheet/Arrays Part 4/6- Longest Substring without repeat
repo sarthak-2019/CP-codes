@@ -46,7 +46,7 @@ public:
     }
 };
 
-Approach-2 Using Two Pointer and a Map
+Approach-2 Using Two Pointer and a vector
 
 class Solution {
 public:
