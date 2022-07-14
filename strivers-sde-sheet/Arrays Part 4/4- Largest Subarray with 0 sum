@@ -1,0 +1,24 @@
+// https://www.codingninjas.com/codestudio/problems/920321?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website
+
+int LongestSubsetWithZeroSum(vector < int > arr) {
+    
+    int c=1;
+    int sum=0;
+    map<int,int> m;
+    int ans=0;
+    for(auto i:arr){
+        sum+=i;
+        if(sum==0)
+            ans=max(ans,c);
+        
+        if(m.find(sum)!=m.end()){
+            int ind=m[sum];
+            ans=max(ans,c-ind);
+        }else
+            m[sum]=c;
+        c++;
+    }
+    return ans;
+  // Write your code here
+
+}
