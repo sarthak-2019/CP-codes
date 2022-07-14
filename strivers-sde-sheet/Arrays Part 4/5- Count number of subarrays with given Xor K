@@ -1,0 +1,17 @@
+// https://www.codingninjas.com/codestudio/problems/1115652?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website&leftPanelTab=1
+
+int subarraysXor(vector<int> &arr, int x)
+{
+    int xor_total=0;
+    unordered_map<int,int> m;
+    m[0]++;
+    int ans=0;
+    for(auto i:arr){
+        xor_total=xor_total^i;
+        int need=xor_total^x;
+        ans+=m[need];
+        m[xor_total]++;
+    }
+    return ans;
+    //    Write your code here.
+}
