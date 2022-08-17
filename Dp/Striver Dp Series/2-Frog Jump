@@ -1,0 +1,25 @@
+// https://www.codingninjas.com/codestudio/problems/frog-jump_3621012
+
+#include <bits/stdc++.h>
+#define mod             1000000007
+const int N=1e5+5;
+int dp[N];
+int cal(int n, vector<int> &heights){
+    if(dp[n]!=-1)
+        return dp[n];
+    int l=cal(n-1,heights)+abs(heights[n]-heights[n-1]);
+    int r=cal(n-2,heights)+abs(heights[n]-heights[n-2]);
+    return dp[n]=min(l,r);
+}
+int frogJump(int n, vector<int> &heights)
+{
+    memset(dp,-1,sizeof(dp));
+    if(n==1)
+        return 0;
+    if(n==2)
+        return abs(heights[0]-heights[1]);
+    dp[0]=0;
+    dp[1]=abs(heights[0]-heights[1]);
+    return cal(n-1,heights);
+
+}
