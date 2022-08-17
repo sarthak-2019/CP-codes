@@ -1,0 +1,22 @@
+//https://www.codingninjas.com/codestudio/problems/count-ways-to-reach-nth-stairs_798650
+
+#define mod             1000000007
+const int N=1e5+5;
+int dp[N];
+
+int cal(int cur){
+    if(cur==0)
+        return 1;
+    if(cur==1)
+        return 1;
+    if(cur==2)
+        return 2;
+    if(dp[cur]!=-1)
+        return dp[cur];
+    return dp[cur]=(cal(cur-1)+cal(cur-2))%mod;
+        
+}
+int countDistinctWays(int nStairs) {
+    memset(dp,-1,sizeof(dp));
+    return cal(nStairs);
+}
