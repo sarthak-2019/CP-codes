@@ -1,1 +1,29 @@
 //https://www.codingninjas.com/codestudio/problems/total-unique-paths_1081470
+
+#include <bits/stdc++.h>
+int dp[20][20];
+int cal(int m,int n){
+    if(m==1||n==1)
+        return 1;
+    if(dp[m][n]!=-1)
+        return dp[m][n];
+    return dp[m][n]=cal(m-1,n)+cal(m,n-1);
+}
+int uniquePaths(int m, int n) {
+//     memset(dp,-1,sizeof(dp));
+// 	return cal(m,n);
+    
+    for(int i=1;i<=m;i++){
+        for(int j=1;j<=n;j++){
+            if(i==1||j==1){
+                dp[i][j]=1;
+            }
+        }
+    }
+    for(int i=2;i<=m;i++){
+        for(int j=2;j<=n;j++){
+            dp[i][j]=dp[i-1][j]+dp[i][j-1];
+        }
+    }
+    return dp[m][n];
+}
