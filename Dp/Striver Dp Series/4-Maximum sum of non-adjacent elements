@@ -1,1 +1,34 @@
+//https://www.codingninjas.com/codestudio/problems/maximum-sum-of-non-adjacent-elements_843261
 
+
+int cal(vector<int> &nums,int ind,vector<int>&dp){
+    if(ind<0){
+        return 0;
+    }
+    if(ind==0){
+        nums[ind];
+    }
+    if(dp[ind]!=-1)
+        return dp[ind];
+    int pick=nums[ind]+cal(nums,ind-2,dp);
+    int not_pick=cal(nums,ind-1,dp);
+    return dp[ind]=max(pick,not_pick);
+    
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+    int n=nums.size();
+    vector<int>dp(n,-1);
+//     return cal(nums,n-1,dp);
+    
+    dp[0]=nums[0];
+    for(int i=1;i<n;i++){
+        int mx=-1;
+        if(i-2>=0){
+            mx=nums[i]+dp[i-2];
+        }else
+            mx=nums[i];
+        mx=max(mx,dp[i-1]);
+        dp[i]=mx;
+    }
+    return dp[n-1];
+}
