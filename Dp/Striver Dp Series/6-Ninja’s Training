@@ -1,1 +1,26 @@
 //https://www.codingninjas.com/codestudio/problems/ninja-s-training_3621003
+
+int cal(int ind, int task,vector<vector<int>> &points,vector<vector<int>>&dp){
+    if(ind==0){
+        return points[ind][task];
+    }
+    if(dp[ind][task]!=-1)
+        return dp[ind][task];
+    if(task==0){
+        return dp[ind][task]=points[ind][task]+max(cal(ind-1,1,points,dp),cal(ind-1,2,points,dp));
+    }
+    if(task==1){
+        return dp[ind][task]=points[ind][task]+max(cal(ind-1,0,points,dp),cal(ind-1,2,points,dp));
+    }
+    if(task==2){
+        return dp[ind][task]=points[ind][task]+max(cal(ind-1,0,points,dp),cal(ind-1,1,points,dp));
+    }
+}
+int ninjaTraining(int n, vector<vector<int>> &points)
+{
+    vector<vector<int>>dp(n,vector<int>(4,-1));
+    int mx1=cal(n-1,0,points,dp);
+    int mx2=cal(n-1,1,points,dp);
+    int mx3=cal(n-1,2,points,dp);
+    return max(mx1,max(mx2,mx3));
+}
