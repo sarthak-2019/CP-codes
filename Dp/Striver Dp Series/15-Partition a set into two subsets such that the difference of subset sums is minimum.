@@ -1,0 +1,36 @@
+//https://www.codingninjas.com/codestudio/problems/partition-a-set-into-two-subsets-such-that-the-difference-of-subset-sums-is-minimum_842494
+
+#include <bits/stdc++.h>
+const int N=1e3+5;
+const int N1=1e4+5;
+int dp[N][N1];
+bool cal(int ind, int k, vector<int> &arr){
+    if(k==0)
+        return true;
+    if(ind==-1){
+        return false;
+    }
+    if(dp[ind][k]!=-1)
+        return dp[ind][k];
+    if(arr[ind]<=k){
+        return dp[ind][k]=cal(ind-1,k-arr[ind],arr)||cal(ind-1,k,arr);
+    }else{
+        return dp[ind][k]=cal(ind-1,k,arr);
+    }
+}
+int minSubsetSumDifference(vector<int>& arr, int n)
+{
+    memset(dp,-1,sizeof(dp));
+    int s=0;
+    int ans=INT_MAX;
+    for(auto i:arr){
+        s+=i;
+    }
+    for(int i=0;i<=s/2;i++){
+        if(cal(n-1,i,arr)){
+            ans=min(ans,abs(2*i-s));
+        }
+    }
+    return ans;
+	// Write your code here.
+}
