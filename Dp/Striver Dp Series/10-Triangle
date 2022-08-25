@@ -1,0 +1,30 @@
+//https://www.codingninjas.com/codestudio/problems/triangle_1229398
+
+#include <bits/stdc++.h>
+int dp[1005][1005];
+int cal(int i,int j,vector<vector<int>>& triangle, int n){
+    if(i==n-1){
+        return triangle[i][j];
+    }
+    if(dp[i][j]!=-1)
+        return dp[i][j];
+    int l=triangle[i][j]+cal(i+1,j,triangle,n);
+    int r=triangle[i][j]+cal(i+1,j+1,triangle,n);
+    return dp[i][j]=min(l,r);
+    
+}
+int minimumPathSum(vector<vector<int>>& triangle, int n){
+    memset(dp,-1,sizeof(dp));
+// 	return cal(0,0,triangle,n);
+    for(int i=0;i<n;i++){
+        dp[n-1][i]=triangle[n-1][i];
+    }
+    for(int i=n-2;i>=0;i--){
+        for(int j=0;j<=i;j++){
+            int l=triangle[i][j]+dp[i+1][j];
+            int r=triangle[i][j]+dp[i+1][j+1];
+            dp[i][j]=min(l,r);
+        }
+    }
+    return dp[0][0];
+}
