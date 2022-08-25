@@ -1,0 +1,62 @@
+//https://www.codingninjas.com/codestudio/problems/rod-cutting-problem_800284
+
+#include <bits/stdc++.h>
+const int N=1e3+5;
+int dp[N][N];
+int cal(string s, string t,int ind1,int ind2){
+    if(ind1<0||ind2<0){
+        return 0;
+    }
+    if(dp[ind1][ind2]!=-1){
+        return dp[ind1][ind2];
+    }
+    if(s[ind1]==t[ind2]){
+        return dp[ind1][ind2]=1+cal(s,t,ind1-1,ind2-1);
+    }else{
+        return dp[ind1][ind2]=max(cal(s,t,ind1,ind2-1),cal(s,t,ind1-1,ind2));
+    }
+}
+// int lcs(string s, string t)
+// {
+//     memset(dp,-1,sizeof(dp));
+//     int n1=s.length();
+//     int n2=t.length();
+// // 	return cal(s,t,n1-1,n2-1);
+    
+//     for(int i=0;i<=n1;i++){
+//         for(int j=0;j<=n2;j++){
+//             if(i==0||j==0){
+//                 dp[i][j]=0;
+//             }
+//         }
+//     }
+//     for(int i=1;i<=n1;i++){
+//         for(int j=1;j<=n2;j++){
+//             if(s[i-1]==t[j-1]){
+//                 dp[i][j]=1+dp[i-1][j-1];
+//             }else{
+//                  dp[i][j]=max(dp[i][j-1],dp[i-1][j]);
+//             }
+//         }
+//     }
+//     return dp[n1][n2];
+// }
+
+//Space Optimised
+int lcs(string s, string t)
+{
+    int n1=s.length();
+    int n2=t.length();
+    vector<int>cur(n2+1,0),prev(n2+1,0);
+    for(int i=1;i<=n1;i++){
+        for(int j=1;j<=n2;j++){
+            if(s[i-1]==t[j-1]){
+                cur[j]=1+prev[j-1];
+            }else{
+                cur[j]=max(cur[j-1],prev[j]);
+            }
+        }
+         prev=cur;
+    }
+    return cur[n2];
+}
