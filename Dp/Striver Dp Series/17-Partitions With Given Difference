@@ -1,0 +1,35 @@
+//https://www.codingninjas.com/codestudio/problems/partitions-with-given-difference_3751628
+
+#include <bits/stdc++.h>
+#define mod             1000000007
+const int N=1e4+5;
+int dp[55][N];
+int cal(int ind, int k, vector<int> &arr){
+    if(k==0)
+        return 1;
+    if(ind==-1){
+        return 0;
+    }
+    if(dp[ind][k]!=-1)
+        return dp[ind][k];
+    if(arr[ind]<=k){
+        return dp[ind][k]=(cal(ind-1,k-arr[ind],arr)+cal(ind-1,k,arr))%mod;
+    }else{
+        return dp[ind][k]=cal(ind-1,k,arr);
+    }
+}
+int countPartitions(int n, int d, vector<int> &arr) {
+    memset(dp,-1,sizeof(dp));
+    int s=0;
+    sort(arr.begin(),arr.end());
+    reverse(arr.begin(),arr.end());
+    for(auto i:arr)
+        s+=i;
+    s+=d;
+    if(s%2!=0)
+        return 0;
+    s/=2;
+    return cal(n-1,s,arr);
+}
+
+
