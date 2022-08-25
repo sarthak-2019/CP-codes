@@ -1,0 +1,39 @@
+//https://www.codingninjas.com/codestudio/problems/rod-cutting-problem_800284
+
+#include <bits/stdc++.h>
+int dp[105][105];
+int cal(vector<int> &price, int rod,int ind){
+    if(ind<0||rod==0)
+        return 0;
+    if(dp[ind][rod]!=-1)
+        return dp[ind][rod];
+    if(rod-(ind+1)>=0){
+        return dp[ind][rod]=max(price[ind]+cal(price,rod-(ind+1),ind),cal(price,rod,ind-1));
+    }else{
+        return dp[ind][rod]=cal(price,rod,ind-1);
+    }
+}
+// int cutRod(vector<int> &price, int n)
+// {
+//     memset(dp,-1,sizeof(dp));
+//     return cal(price,n,n-1);
+// }
+
+//Space Optimization
+
+int cutRod(vector<int> &price, int n)
+{
+    vector<int>cur(n+2,0),prev(n+2,0);
+    
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            if(j-i>=0){
+                cur[j]=max(price[i-1]+cur[j-i],prev[j]);
+            }else{
+                cur[j]=prev[j];
+            }
+        }
+        prev=cur;
+    }
+    return cur[n];
+}
