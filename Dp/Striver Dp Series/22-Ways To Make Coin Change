@@ -1,0 +1,48 @@
+//https://www.codingninjas.com/codestudio/problems/ways-to-make-coin-change_630471
+
+const int N=1e3+5;
+#include <bits/stdc++.h>
+long dp[N][N];
+long cal(int n, int w, vector<int> &profit, vector<int> &weight){
+    if(w==0||n<0)
+        return 0;
+    if(dp[n][w]!=-1)
+        return dp[n][w];
+    if(w-weight[n]>=0){
+        return dp[n][w]=max(profit[n]+cal(n,w-weight[n],profit,weight),cal(n-1,w,profit,weight));
+    }else
+        return dp[n][w]=cal(n-1,w,profit,weight);
+}
+// int unboundedKnapsack(int n, int w, vector<int> &profit, vector<int> &weight)
+// {
+//     memset(dp,0,sizeof(dp));
+// //     return cal(n-1,w,profit,weight);
+    
+//     for(int i=1;i<=n;i++){
+//         for(int j=1;j<=w;j++){
+//             if(j-weight[i-1]>=0){
+//                 dp[i][j]=max(profit[i-1]+dp[i][j-weight[i-1]],dp[i-1][j]);
+//             }else{
+//                 dp[i][j]=dp[i-1][j];
+//             }
+//         }
+//     }
+//     return dp[n][w];
+// }
+
+// Space Optimization
+int unboundedKnapsack(int n, int w, vector<int> &profit, vector<int> &weight)
+{
+    vector<long>cur(w+2,0),prev(w+2,0);
+    for(int i=1;i<=n;i++){
+        for(int j=0;j<=w;j++){
+            if(j-weight[i-1]>=0){
+                cur[j]=max(profit[i-1]+cur[j-weight[i-1]],prev[j]);
+            }else{
+                cur[j]=prev[j];
+            }
+        }
+        prev=cur;
+    }
+    return cur[w];
+}
