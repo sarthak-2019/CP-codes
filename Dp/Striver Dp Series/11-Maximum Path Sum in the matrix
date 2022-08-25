@@ -1,0 +1,55 @@
+//https://www.codingninjas.com/codestudio/problems/maximum-path-sum-in-the-matrix_797998
+
+#include <bits/stdc++.h>
+int dp[105][105];
+int cal(int i,int j,vector<vector<int>> &matrix,int n,int m){
+    if(i==n-1){
+        return matrix[i][j];
+    }
+    if(dp[i][j]!=-1)
+        return dp[i][j];
+    int ans=INT_MIN;
+    if(j-1>=0){
+        ans=max(ans,matrix[i][j]+cal(i+1,j-1,matrix,n,m));
+    }
+    if(j+1<m){
+        ans=max(ans,matrix[i][j]+cal(i+1,j+1,matrix,n,m));
+    }
+    ans=max(ans,matrix[i][j]+cal(i+1,j,matrix,n,m));
+    return dp[i][j]=ans;
+    
+}
+int getMaxPathSum(vector<vector<int>> &matrix)
+{
+    memset(dp,0,sizeof(dp));
+    int n=matrix.size();
+    int m=matrix[0].size();
+//     int ans=INT_MIN;
+//     for(int i=0;i<m;i++){
+//         ans=max(ans,cal(0,i,matrix,n,m));
+//     }
+    
+    
+    for(int i=0;i<m;i++)
+        dp[0][i]=matrix[0][i];
+    
+   for(int i=1;i<n;i++){
+       for(int j=0;j<m;j++){
+         int ans=INT_MIN;
+        if(j-1>=0){
+            ans=max(ans,matrix[i][j]+dp[i-1][j-1]);
+        }
+        if(j+1<m){
+            ans=max(ans,matrix[i][j]+dp[i-1][j+1]);
+        }
+        ans=max(ans,matrix[i][j]+dp[i-1][j]);
+           dp[i][j]=ans;
+      }
+    }
+    int ans=INT_MIN;
+    for(int i=0;i<m;i++){
+        ans=max(ans,dp[n-1][i]);
+    }
+    
+    return ans;
+}
