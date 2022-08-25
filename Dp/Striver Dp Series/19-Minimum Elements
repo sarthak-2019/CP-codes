@@ -1,1 +1,32 @@
 //https://www.codingninjas.com/codestudio/problems/minimum-elements_3843091
+
+
+#include <bits/stdc++.h>
+int dp[20][10005];
+int cal(int ind,vector<int> &num, int x){
+    if(dp[ind][x]!=-1)
+        return dp[ind][x];
+    
+    int not_take=cal(ind-1,num,x);
+    int take=1e9;
+    if(x-num[ind]>=0){
+        take=min(1+cal(ind,num,x-num[ind]),cal(ind-1,num,x));
+    }
+    return dp[ind][x]=min(take,not_take);
+    
+}
+int minimumElements(vector<int> &num, int x)
+{
+    memset(dp,-1,sizeof(dp));
+    int n=num.size();
+    for(int i=0;i<=x;i++){
+        if(i%num[0]==0){
+            dp[0][i]=i/num[0];
+        }else
+            dp[0][i]=1e9;
+    }
+    int ans=cal(n-1,num,x);
+    if(ans>=1e9)
+        return -1;
+    return ans;
+}
