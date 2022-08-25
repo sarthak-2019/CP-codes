@@ -1,1 +1,76 @@
 //https://www.codingninjas.com/codestudio/problems/target-sum_4127362
+
+
+#include <bits/stdc++.h>
+int dp[30][25005];
+int cal(int ind, int target, vector<int>& arr){
+    if(target==0)
+        return 1;
+    if(ind<0)
+        return 0;
+    if(dp[ind][target]!=-1)
+        return dp[ind][target];
+    if(target-arr[ind]>=0){
+        return dp[ind][target]=cal(ind-1,target-arr[ind],arr)+cal(ind-1,target,arr);
+    }else{
+        return dp[ind][target]=cal(ind-1,target,arr);
+    }
+}
+// int targetSum(int n, int target, vector<int>& arr) {
+//     memset(dp,-1,sizeof(dp));
+//     sort(arr.begin(),arr.end());
+//     reverse(arr.begin(),arr.end());
+//     int s=0;
+//     for(auto i:arr)
+//         s+=i;
+//     s+=target;
+//     if(s%2!=0)
+//         return 0;
+//     s/=2;
+// //     return cal(n-1,s,arr);
+    
+//     for(int i=0;i<=n;i++){
+//         for(int j=0;j<=s;j++){
+//             if(j==0){
+//                 dp[i][j]=1;
+//                 continue;
+//             }else
+//                 dp[i][j]=-0;
+//         }
+//     }
+//     for(int i=1;i<=n;i++){
+//         for(int j=1;j<=s;j++){
+//             if(j-arr[i-1]>=0){
+//                 dp[i][j]=dp[i-1][j-arr[i-1]]+dp[i-1][j];
+//             }else
+//                dp[i][j]=dp[i-1][j];
+//         }
+//     }
+//     return dp[n][s];
+// }
+//Space Optimization
+
+int targetSum(int n, int target, vector<int>& arr) {
+    
+   
+    int s=0;
+    for(auto i:arr)
+        s+=i;
+    s+=target;
+    if(s%2!=0)
+        return 0;
+    s/=2;
+    
+    vector<int>cur(s+2,0),prev(s+2,0);
+    prev[0]=1;
+    for(int i=1;i<=n;i++){
+        for(int j=s;j>=0;j--){
+            if(j-arr[i-1]>=0){
+                cur[j]=prev[j-arr[i-1]]+prev[j];
+            }else
+               cur[j]=prev[j];
+        }
+        prev=cur;
+    }
+    return cur[s];
+}
