@@ -1,5 +1,3 @@
-//  https://www.codingninjas.com/codestudio/problems/0-1-knapsack_920542
-
 #include <bits/stdc++.h>
 const int N=1e3+5;
 int dp[105][N];
@@ -14,24 +12,40 @@ int cal(vector<int> weight, vector<int> value, int ind, int maxWeight){
     }else
         return dp[ind][maxWeight]=cal(weight,value,ind-1,maxWeight);
 }
+// int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+// {
+//     memset(dp,-1,sizeof(dp));
+// // 	return cal(weight,value,n-1,maxWeight);
+    
+//     for(int i=0;i<=n;i++){
+//         for(int j=0;j<=maxWeight;j++){
+//             if(i==0||j==0)
+//                 dp[i][j]=0;
+//         }
+//     }
+//     for(int i=1;i<=n;i++){
+//         for(int j=1;j<=maxWeight;j++){
+//             if(j-weight[i-1]>=0){
+//         dp[i][j]=max(value[i-1]+dp[i-1][j-weight[i-1]],dp[i-1][j]);
+//         }else
+//         dp[i][j]=dp[i-1][j];
+//         }
+//     }
+//     return dp[n][maxWeight];
+// }
+
+// Space Optimization
 int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
 {
-    memset(dp,-1,sizeof(dp));
-// 	return cal(weight,value,n-1,maxWeight);
-    
-    for(int i=0;i<=n;i++){
-        for(int j=0;j<=maxWeight;j++){
-            if(i==0||j==0)
-                dp[i][j]=0;
-        }
-    }
+    vector<int>cur(maxWeight+2,0),prev(maxWeight+2,0);
     for(int i=1;i<=n;i++){
-        for(int j=1;j<=maxWeight;j++){
+        for(int j=maxWeight;j>=0;j--){
             if(j-weight[i-1]>=0){
-        dp[i][j]=max(value[i-1]+dp[i-1][j-weight[i-1]],dp[i-1][j]);
+        cur[j]=max(value[i-1]+prev[j-weight[i-1]],prev[j]);
         }else
-        dp[i][j]=dp[i-1][j];
+        cur[j]=prev[j];
         }
+        prev=cur;
     }
-    return dp[n][maxWeight];
+    return cur[maxWeight];
 }
