@@ -1,1 +1,45 @@
 // https://www.codingninjas.com/codestudio/problems/subset-sum-equal-to-k_1550954
+
+
+#include <bits/stdc++.h>
+const int N=1e3+5;
+int dp[N][N];
+bool cal(int ind, int k, vector<int> &arr){
+    if(k==0)
+        return true;
+    if(ind==-1){
+        return false;
+    }
+    if(dp[ind][k]!=-1)
+        return dp[ind][k];
+    if(arr[ind]<=k){
+        return dp[ind][k]=cal(ind-1,k-arr[ind],arr)||cal(ind-1,k,arr);
+    }else{
+        return dp[ind][k]=cal(ind-1,k,arr);
+    }
+}
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    memset(dp,-1,sizeof(dp));
+    return cal(n-1,k,arr);
+    
+//     for(int i=0;i<=n;i++){
+//         for(int j=0;j<=k;j++){
+//             if(j==0){
+//                 dp[i][j]=1;
+//                 continue;
+//             }
+//             if(i==0){
+//                 dp[i][j]=0;
+//             }
+//         }
+//     }
+//     for(int i=1;i<=n;i++){
+//         for(int j=1;j<=k;j++){
+//             if(arr[i-1]<=j){
+//                 dp[i][j]=dp[i-1][j-arr[i-1]]||dp[i-1][j];
+//             }else
+//                  dp[i][j]=dp[i-1][j];
+//         }
+//     }
+//     return dp[n][k];
+}
