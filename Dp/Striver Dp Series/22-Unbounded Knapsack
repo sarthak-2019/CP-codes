@@ -1,5 +1,4 @@
-//https://www.codingninjas.com/codestudio/problems/ways-to-make-coin-change_630471
-
+//https://www.codingninjas.com/codestudio/problems/unbounded-knapsack_1215029
 const int N=1e3+5;
 #include <bits/stdc++.h>
 long dp[N][N];
