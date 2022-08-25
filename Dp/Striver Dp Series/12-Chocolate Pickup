@@ -1,0 +1,37 @@
+// https://www.codingninjas.com/codestudio/problems/ninja-and-his-friends_3125885
+
+#include <bits/stdc++.h>
+int dp[55][55][55];
+int cal(int ind,int alice,int bob,vector<vector<int>> &grid,int r,int c){
+    if(alice<0||alice>=c||bob<0||bob>=c)
+        return INT_MIN;
+    if(ind==r-1){
+        if(alice!=bob)
+        return grid[ind][alice]+grid[ind][bob];
+        else
+            return grid[ind][alice];
+    }
+    if(dp[ind][alice][bob]!=-1){
+        return dp[ind][alice][bob];
+    }
+    int ans=-1e8;
+    ans=max(ans,cal(ind+1,alice,bob,grid,r,c));
+    ans=max(ans,cal(ind+1,alice,bob-1,grid,r,c));
+    ans=max(ans,cal(ind+1,alice,bob+1,grid,r,c));
+    ans=max(ans,cal(ind+1,alice-1,bob,grid,r,c));
+    ans=max(ans,cal(ind+1,alice-1,bob-1,grid,r,c));
+    ans=max(ans,cal(ind+1,alice-1,bob+1,grid,r,c));
+    ans=max(ans,cal(ind+1,alice+1,bob,grid,r,c));
+    ans=max(ans,cal(ind+1,alice+1,bob-1,grid,r,c));
+    ans=max(ans,cal(ind+1,alice+1,bob+1,grid,r,c));
+    if(alice!=bob)
+        ans+=(grid[ind][alice]+grid[ind][bob]);
+    else
+        ans+=grid[ind][alice];
+    return dp[ind][alice][bob]=ans;
+    
+}
+int maximumChocolates(int r, int c, vector<vector<int>> &grid) {
+    memset(dp,-1,sizeof(dp));
+    return cal(0,0,c-1,grid,r,c);
+}
