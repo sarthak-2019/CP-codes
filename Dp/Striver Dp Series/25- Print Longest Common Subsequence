@@ -24,7 +24,7 @@ void solve() {
     int ind1 = n;
     int ind2 = m;
     string ans = "";
-    while (ind1 > 0 || ind2 > 0) {
+    while (ind1 > 0 && ind2 > 0) {
         if (s1[ind1 - 1] == s2[ind2 - 1]) {
             ans += s1[ind1 - 1] ;
             ind1--;
