@@ -1,0 +1,21 @@
+//https://www.codingninjas.com/codestudio/problems/can-you-make_4244510
+
+#include <bits/stdc++.h>
+int dp[105][105];
+int canYouMake(string &str, string &ptr)
+{
+    memset(dp,0,sizeof(dp));
+    int n1=str.length();
+    int n2=ptr.length();
+
+    for(int i=1;i<=n1;i++){
+        for(int j=1;j<=n2;j++){
+            if(str[i-1]==ptr[j-1]){
+                dp[i][j]=1+dp[i-1][j-1];
+            }else{
+                 dp[i][j]=max(dp[i][j-1],dp[i-1][j]);
+            }
+        }
+    }
+    return n1+n2-2*dp[n1][n2];
+}
