@@ -1,0 +1,42 @@
+const int N = 1e3 + 5;
+int dp[N][N];
+void solve() {
+    string s1, s2;
+    cin >> s1 >> s2;
+    int n = s1.length();
+    int m = s2.length();
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= m; j++) {
+            if (i == 0 || j == 0)
+                dp[i][j] = 0;
+        }
+    }
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+
+            if (s1[i - 1] == s2[j - 1]) {
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
+            }
+        }
+    }
+    int ind1 = n;
+    int ind2 = m;
+    string ans = "";
+    while (ind1 > 0 || ind2 > 0) {
+        if (s1[ind1 - 1] == s2[ind2 - 1]) {
+            ans += s1[ind1 - 1] ;
+            ind1--;
+            ind2--;
+            continue;
+        }
+        if (dp[ind1][ind2 - 1] > dp[ind1 - 1][ind2]) {
+            ind2--;
+        } else {
+            ind1--;
+        }
+    }
+    reverse(ans.begin(), ans.end());
+    cout << ans;
+}
