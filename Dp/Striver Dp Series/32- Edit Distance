@@ -1,0 +1,80 @@
+//
+
+
+class Solution {
+public:
+    int dp[505][505];
+    int cal(string word1, string word2,int n,int m){
+        if(m<0)
+            return n+1;
+        if(n<0)
+            return m+1;
+        int &val=dp[n][m];
+        if(val!=-1)
+            return val;
+        if(word1[n]==word2[m])
+            return val=cal(word1,word2,n-1,m-1);
+        else{
+            int insert_opt=cal(word1,word2,n,m-1);
+            int delete_opt=cal(word1,word2,n-1,m);
+            int replace_opt=cal(word1,word2,n-1,m-1);
+            return val=1+min(insert_opt,min(delete_opt,replace_opt));
+        }
+           
+    }
+//     int minDistance(string word1, string word2) {
+//         int n=word1.length();
+//         int m=word2.length();
+//         // memset(dp,-1,sizeof(dp));
+//         // return cal(word1,word2,n-1,m-1);
+        
+//         for(int i=0;i<=n;i++){
+//             dp[i][0]=i;
+//         }
+//         for(int i=0;i<=m;i++){
+//             dp[0][i]=i;
+//         }
+//         for(int i=1;i<=n;i++){
+//             for(int j=1;j<=m;j++){
+//                 if(word1[i-1]==word2[j-1]){
+//                     dp[i][j]=dp[i-1][j-1];
+//                 }else{
+//                     int insert_opt=dp[i][j-1];
+//                     int delete_opt=dp[i-1][j];
+//                     int replace_opt=dp[i-1][j-1];
+//                     dp[i][j]=1+min(insert_opt,min(delete_opt,replace_opt));
+//                 }
+//             }
+//         }
+//         return dp[n][m];
+//     }
+        
+    // Space Optimization 
+        int minDistance(string word1, string word2) {
+        int n=word1.length();
+        int m=word2.length();
+        // memset(dp,-1,sizeof(dp));
+        // return cal(word1,word2,n-1,m-1);
+        
+        vector<int> cur(m+1,0),prev(m+1,0);
+            
+        for(int i=0;i<=m;i++)
+            prev[i]=i;
+        
+        for(int i=1;i<=n;i++){
+            cur[0]=i;
+            for(int j=1;j<=m;j++){
+                if(word1[i-1]==word2[j-1]){
+                    cur[j]=prev[j-1];
+                }else{
+                    int insert_opt=cur[j-1];
+                    int delete_opt=prev[j];
+                    int replace_opt=prev[j-1];
+                    cur[j]=1+min(insert_opt,min(delete_opt,replace_opt));
+                }
+            }
+            prev=cur;
+        }
+        return prev[m];
+    }
+};
