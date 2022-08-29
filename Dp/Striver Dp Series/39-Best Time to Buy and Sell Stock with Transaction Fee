@@ -1,0 +1,26 @@
+//https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+
+class Solution {
+public:
+    static const int N=5e4+5;
+    int dp[N][2];
+    int cal(int ind,int buy,vector<int>& prices,int n,int fee){
+        
+        if(ind==n)
+            return 0;
+        
+        int &val=dp[ind][buy];
+        if(val!=-1)
+            return val;
+        if(buy==1){
+            return val=max(-1*prices[ind]+cal(ind+1,0,prices,n,fee),0+cal(ind+1,1,prices,n,fee));
+        }else{
+            return val=max(-fee+prices[ind]+cal(ind+1,1,prices,n,fee),0+cal(ind+1,0,prices,n,fee));
+        }
+    }
+    int maxProfit(vector<int>& prices, int fee) {
+        memset(dp,-1,sizeof(dp));
+        int n=prices.size();
+        return cal(0,1,prices,n,fee);
+    }
+};
