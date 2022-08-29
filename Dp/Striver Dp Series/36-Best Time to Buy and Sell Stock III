@@ -20,12 +20,36 @@ public:
             return dp[ind][buy][cap]=max(prices[ind]+cal(ind+1,1,cap-1,prices),cal(ind+1,0,cap,prices));
         }
     }
-    int maxProfit(vector<int>& prices) {
-        int n=prices.size();
-        // memset(dp,-1,sizeof(dp));
-        // return cal(0,1,2,prices);
+//     int maxProfit(vector<int>& prices) {
+//         int n=prices.size();
+//         // memset(dp,-1,sizeof(dp));
+//         // return cal(0,1,2,prices);
         
-         memset(dp,0,sizeof(dp));
+//          memset(dp,0,sizeof(dp));
+        
+//         for(int i=n-1;i>=0;i--){
+            
+//             for(int buy=0;buy<=1;buy++){
+                
+//                 for(int cap=1;cap<=2;cap++){
+                    
+//                     if(buy){
+//                         dp[i][buy][cap]=max(-prices[i]+dp[i+1][0][cap],dp[i+1][1][cap]);
+//                     }else{
+//                         dp[i][buy][cap]=max(prices[i]+dp[i+1][1][cap-1],dp[i+1][0][cap]);
+//                     }
+//                 }
+//             }
+//         }
+//         return dp[0][1][2];
+//     }
+    
+    // Space Optimization
+    
+     int maxProfit(vector<int>& prices) {
+        int n=prices.size();
+        vector<vector<int>> dp_cur(2,vector<int>(3,0));
+        vector<vector<int>> dp_prev(2,vector<int>(3,0));
         
         for(int i=n-1;i>=0;i--){
             
@@ -34,13 +58,14 @@ public:
                 for(int cap=1;cap<=2;cap++){
                     
                     if(buy){
-                        dp[i][buy][cap]=max(-prices[i]+dp[i+1][0][cap],dp[i+1][1][cap]);
+                        dp_cur[buy][cap]=max(-prices[i]+dp_prev[0][cap],dp_prev[1][cap]);
                     }else{
-                        dp[i][buy][cap]=max(prices[i]+dp[i+1][1][cap-1],dp[i+1][0][cap]);
+                        dp_cur[buy][cap]=max(prices[i]+dp_prev[1][cap-1],dp_prev[0][cap]);
                     }
                 }
             }
+            dp_prev=dp_cur;
         }
-        return dp[0][1][2];
+        return dp_cur[1][2];
     }
 };
