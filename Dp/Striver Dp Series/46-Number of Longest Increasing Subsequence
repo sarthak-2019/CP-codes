@@ -1,0 +1,29 @@
+//Number of Longest Increasing Subsequence
+
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        vector<int>dp(n+2,1);
+        vector<int>ways(n+2,1);
+        int ans=1;
+        for(int i=0;i<n;i++){
+            for(int prev=0;prev<i;prev++){
+                if(nums[prev]<nums[i]&& 1+dp[prev]>dp[i]){
+                    dp[i]=1+dp[prev];
+                    ans=max(ans,dp[i]);
+                    ways[i]=ways[prev];
+                }else if(nums[prev]<nums[i]&& 1+dp[prev]==dp[i]){
+                    ways[i]+=ways[prev];
+                }
+            }
+    
+        }
+        int ans_ways=0;
+        for(int i=0;i<n;i++){
+            if(dp[i]==ans)
+                ans_ways+=ways[i];
+        }
+        return ans_ways;
+    }
+};
