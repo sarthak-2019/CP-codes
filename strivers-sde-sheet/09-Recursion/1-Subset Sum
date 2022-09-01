@@ -1,0 +1,20 @@
+//https://www.codingninjas.com/codestudio/problems/subset-sum_3843086
+
+
+void cal(int ind,vector<int> &num,int sum,vector<int> &ans){
+    if(ind>=num.size()){
+        ans.push_back(sum);
+        return;
+    }
+    sum+=num[ind];
+    cal(ind+1,num,sum,ans);
+    sum-=num[ind];
+    cal(ind+1,num,sum,ans);
+}
+vector<int> subsetSum(vector<int> &num)
+{
+    vector<int> ans;
+    cal(0,num,0,ans);
+    sort(ans.begin(),ans.end());
+    return ans;
+}
