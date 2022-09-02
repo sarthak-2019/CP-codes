@@ -1,0 +1,27 @@
+//https://leetcode.com/problems/combination-sum/
+
+class Solution {
+public:
+    void cal(int ind,vector<int>& candidates, int target,vector<int>&temp,vector<vector<int>> &ans){
+        if(ind>=candidates.size()){
+            if(target==0){
+            ans.push_back(temp);
+           }
+            return;
+        }
+        
+        if(target-candidates[ind]>=0){
+            temp.push_back(candidates[ind]);
+            cal(ind,candidates,target-candidates[ind],temp,ans);
+            temp.pop_back();
+        }
+        cal(ind+1,candidates,target,temp,ans);
+            
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>>ans;
+        vector<int>temp;
+        cal(0,candidates,target,temp,ans);
+        return ans;
+    }
+};
