@@ -1,0 +1,33 @@
+//https://practice.geeksforgeeks.org/problems/n-meetings-in-one-room-1587115620/1
+
+
+
+class Solution
+{
+    public:
+    static bool cmp(pair<int,int>a,pair<int,int>b){
+        if(a.second!=b.second)
+        return a.second<b.second;
+        else return a.first<b.first;
+    }
+    int maxMeetings(int start[], int end[], int n)
+    {
+        int ans=1;
+        vector<pair<int,int>>vp;
+        
+        for(int i=0;i<n;i++){
+            vp.push_back({start[i],end[i]});
+        }
+        sort(vp.begin(),vp.end(),cmp);
+        
+        int last=vp[0].second;
+        
+        for(int i=1;i<n;i++){
+            if(last<vp[i].first){
+                last=vp[i].second;
+                ans++;
+            }
+        }
+        return ans;
+    }
+};
