@@ -21,7 +21,7 @@ class Solution
                 ans+=arr[i].value;
                 W-=arr[i].weight;
             } else {
-            ans+= arr[i].value* ((double)W / (double)arr[i].weight);
+            ans+= (double)W* ((double)arr[i].value/ (double)arr[i].weight);
             break;
         }
             
