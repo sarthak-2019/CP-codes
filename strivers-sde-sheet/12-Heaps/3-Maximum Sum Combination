@@ -1,0 +1,31 @@
+//https://www.interviewbit.com/problems/maximum-sum-combinations/
+
+
+vector<int> Solution::solve(vector<int> &A, vector<int> &B, int C) {
+    int n=A.size();
+    vector<int>ans;
+    priority_queue<int,vector<int>,greater<int>>pq;
+    sort(A.begin(),A.end(),greater<int>());
+    sort(B.begin(),B.end(),greater<int>());
+    
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(pq.size()<C)
+            pq.push(A[i]+B[j]);
+            else{
+                int x=A[i]+B[j];
+                if(pq.top()<x){
+                    pq.pop();
+                    pq.push(x);
+                }else
+                break;
+            }
+        }
+    }
+    while(!pq.empty()){
+        ans.push_back(pq.top());
+        pq.pop();
+    }
+    sort(ans.begin(),ans.end(),greater<int>());
+    return ans;
+}
