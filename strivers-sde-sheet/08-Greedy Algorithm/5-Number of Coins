@@ -1,1 +1,18 @@
 //https://practice.geeksforgeeks.org/problems/number-of-coins1824/1
+
+
+int findMinimumCoins(int amount) 
+{
+      int coins[]={1,2,5,10,20,50,100,500,1000};
+       int ans=0;
+        sort(coins,coins+9,greater<int>());
+        for(int i=0;i<9;i++){
+            while(coins[i]<=amount){
+                amount-=coins[i];
+                ans++;
+            }
+        }
+        if(amount!=0)
+        ans=-1;
+        return ans;
+}
