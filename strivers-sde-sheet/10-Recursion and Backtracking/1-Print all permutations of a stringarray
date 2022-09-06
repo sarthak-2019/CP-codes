@@ -1,0 +1,27 @@
+//https://leetcode.com/problems/permutations/
+
+
+
+
+//Approach 2
+
+class Solution {
+public:
+    void cal(int ind,vector<int>& nums,vector<vector<int>>&ans){
+        
+        if(nums.size()==ind){
+            ans.push_back(nums);
+        }
+        for(int i=ind;i<nums.size();i++){
+            swap(nums[ind],nums[i]);
+            cal(ind+1,nums,ans);
+            swap(nums[ind],nums[i]);
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>>ans;
+        int n=nums.size();
+        cal(0,nums,ans);
+        return ans;
+    }
+};
