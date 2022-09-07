@@ -1,0 +1,18 @@
+//https://www.codingninjas.com/codestudio/problems/merge-k-sorted-arrays_975379
+
+#include <bits/stdc++.h>
+vector<int> mergeKSortedArrays(vector<vector<int>>&kArrays, int k)
+{
+    vector<int>ans;
+   priority_queue<int,vector<int>,greater<int>>pq;
+    
+    for(auto i:kArrays){
+        for(auto j:i)
+            pq.push(j);
+    }
+    while(!pq.empty()){
+        ans.push_back(pq.top());
+        pq.pop();
+    }
+    return ans;
+}
