@@ -1,0 +1,48 @@
+//https://leetcode.com/problems/find-median-from-data-stream/
+
+class MedianFinder {
+public:
+    priority_queue<int,vector<int>,greater<int>>pq1;
+    priority_queue<int>pq;
+    int len;
+    MedianFinder() {
+        len=0;
+    }
+    
+    void addNum(int num) {
+        len++;
+        int size;
+        size=len/2;
+        size++;
+        if(pq.size()<size){
+            pq.push(num);
+            pq1.push(pq.top());
+            pq.push(pq1.top());
+            pq1.pop();
+            pq.pop();
+        }
+        else{
+            pq.push(num);
+            
+            pq1.push(pq.top());
+            pq.pop();
+            pq.push(pq1.top());
+            pq.pop();
+            
+        }
+        // cout<<len<<" "<<size<<" "<<pq.size()<<endl;
+    }
+    
+    double findMedian() {
+        int size=pq.size();
+        if(len%2){
+            return (double)pq.top();
+        }else{
+            double x=(double)pq.top();
+            pq.pop();
+            double y=(double)pq.top();
+            pq.push((int)x);
+            return (double) (x+y)/2;
+        }
+    }
+};
