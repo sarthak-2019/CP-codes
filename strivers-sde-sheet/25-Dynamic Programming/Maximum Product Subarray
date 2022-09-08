@@ -1,0 +1,19 @@
+//https://leetcode.com/problems/maximum-product-subarray/
+
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+       int max_so_far = nums[0], min_so_far = nums[0], max_product = nums[0];
+       int n = nums.size();
+        
+        for(int i=0;i<n;i++){
+            if(nums[i]<0){
+                swap(max_so_far,min_so_far);
+            }
+            max_so_far=max(nums[i],max_so_far*nums[i]);
+            min_so_far=max(nums[i],min_so_far*nums[i]);
+            max_product=max(max_product,max_so_far);
+        }
+        return  max_product;
+    }
+};
