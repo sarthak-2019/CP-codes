@@ -1,0 +1,23 @@
+//https://leetcode.com/problems/maximum-depth-of-binary-tree/
+
+
+class Solution {
+public:
+    void preorder(TreeNode* root,int &count,int &ans){
+        // if(root==NULL)
+        //     return;
+        // count++;
+        // ans=max(ans,count);
+        // preorder(root->left,count,ans);
+        // preorder(root->right,count,ans);
+        // count--;
+    }
+    int maxDepth(TreeNode* root) {
+        // int count=0,ans=0;
+        // preorder(root,count,ans);
+        // return ans;
+        if(root==NULL)
+            return 0;
+        return 1+max(maxDepth(root->left),maxDepth(root->right));
+    }
+};
