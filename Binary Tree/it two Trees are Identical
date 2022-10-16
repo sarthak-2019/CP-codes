@@ -1,0 +1,32 @@
+//https://leetcode.com/problems/same-tree/
+
+class Solution {
+public:
+    void preorder(TreeNode* p, TreeNode* q,bool &ans){
+        if(p==NULL&&q==NULL)
+            return;
+        if(p==NULL&&q!=NULL){
+            ans=false;
+            return;
+        }
+        if(p!=NULL&&q==NULL){
+            ans=false;
+            return;
+        }
+        if(p->val!=q->val){
+            ans=false;
+            return;
+        }
+        preorder(p->left,q->left,ans);
+        preorder(p->right,q->right,ans);
+    }
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        // bool ans=true;
+        // preorder(p,q,ans);
+        // return ans;
+        if(p==NULL||q==NULL)
+            return (p==q);
+        
+        return (p->val==q->val)&&isSameTree(p->left,q->left)&&isSameTree(p->right,q->right);
+    }
+};
