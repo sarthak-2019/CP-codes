@@ -1,0 +1,18 @@
+//https://leetcode.com/problems/diameter-of-binary-tree/
+
+class Solution {
+public:
+    int preorder(TreeNode* root,int &ans){
+        if(root==NULL)
+            return 0;
+        int l=preorder(root->left,ans);
+        int r=preorder(root->right,ans);
+        ans=max(ans,l+r);
+        return max(l,r)+1;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        int ans=-1;
+        int h=preorder(root,ans);
+        return ans;
+    }
+};
