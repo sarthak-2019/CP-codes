@@ -1,0 +1,65 @@
+//https://leetcode.com/problems/binary-tree-postorder-traversal/
+
+
+class Solution {
+public:
+    void postorder(TreeNode* root,vector<int> &ans){
+        if(root==NULL)
+            return;
+        postorder(root->left,ans);
+        postorder(root->right,ans);
+        ans.push_back(root->val);
+    }
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        // postorder(root,ans);
+        
+    //Using stack and extra space
+        
+        //vector<int> ans;
+        // if(root==NULL)
+        //     return ans;
+        // stack<TreeNode*> s1;
+        // s1.push(root);
+        // while(!s1.empty()){
+        //     TreeNode* node=s1.top();
+        //     s1.pop();
+        //     ans.push_back(node->val);
+        //     if(node->left!=NULL)
+        //         s1.push(node->left);
+        //     if(node->right!=NULL)
+        //         s1.push(node->right);
+        // }
+        // reverse(ans.begin(),ans.end());
+        // return ans;
+        
+//         Using Single Stack
+        
+        if(root==NULL)
+            return ans;
+        stack<TreeNode*> st;
+        TreeNode* cur=root;
+        while(cur!=NULL||!st.empty()){
+            if(cur!=NULL){
+                st.push(cur);
+                cur=cur->left;
+            }else{
+                TreeNode* temp=st.top()->right;
+                if(temp==NULL){
+                    temp=st.top();
+                    st.pop();
+                    ans.push_back(temp->val);
+                    while(!st.empty()&&st.top()->right==temp){
+                        temp=st.top();
+                        st.pop();
+                        ans.push_back(temp->val);
+                    }
+                    
+                }else{
+                    cur=temp;
+                }
+            }
+        }
+        return ans;
+    }
+};
