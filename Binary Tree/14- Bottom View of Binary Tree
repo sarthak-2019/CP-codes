@@ -1,0 +1,49 @@
+//https://www.codingninjas.com/codestudio/problems/bottom-view-of-binary-tree_893110
+
+struct node{
+        BinaryTreeNode<int> *child;
+        int vertical;
+        int level;
+    };
+vector<int> bottomView(BinaryTreeNode<int> * root){
+
+   set<int>help;
+        vector<int>ans;
+        map<int,int>m;
+    
+        if(!root)
+            return ans;
+        queue<node>q;
+        node temp;
+        temp.child=root;
+        temp.vertical=0;
+        temp.level=0;
+        q.push(temp);
+        
+       while(!q.empty()){
+            for(int i=0;i<q.size();i++){
+            node temp=q.front();
+            q.pop();
+             if(!help.count(temp.vertical))
+                 m[temp.vertical]=temp.child->data;
+            if(temp.child->left){
+                node temp1;
+                temp1.child=temp.child->left;
+                temp1.vertical=temp.vertical-1;
+                temp1.level=temp.level+1;
+                q.push(temp1);
+            }
+            if(temp.child->right){
+                node temp1;
+                temp1.child=temp.child->right;
+                temp1.vertical=temp.vertical+1;
+                temp1.level=temp.level+1;
+                q.push(temp1);
+            }
+         }
+       }
+    for(auto i:m)
+        ans.push_back(i.second);
+    return ans;
+    
+}
