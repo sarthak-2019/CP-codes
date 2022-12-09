@@ -1,0 +1,56 @@
+https://leetcode.com/problems/stone-game-iii
+
+class Solution {
+public:
+    int dp[50005][2];
+    int cal(int ind,int turn,int n,vector<int>& stoneValue){
+        if(ind>=n)
+        return 0;
+
+        if(dp[ind][turn]!=-1)
+        return dp[ind][turn];
+        int mx=INT_MIN;
+        int mn=INT_MAX;
+        if(turn){
+            if(ind+2<n){
+                mx=max(mx,stoneValue[ind]+stoneValue[ind+1]+stoneValue[ind+2]+cal(ind+3,0,n,stoneValue));
+            }
+            if(ind+1<n){
+                mx=max(mx,stoneValue[ind]+stoneValue[ind+1]+cal(ind+2,0,n,stoneValue));
+            }
+            if(ind<n){
+                mx=max(mx,stoneValue[ind]+cal(ind+1,0,n,stoneValue));
+            }
+            return dp[ind][turn]=mx;
+        }else{
+            if(ind+2<n){
+                mn=min(mn,cal(ind+3,1,n,stoneValue));
+            }
+            if(ind+1<n){
+                mn=min(mn,cal(ind+2,1,n,stoneValue));
+            }
+            if(ind<n){
+                mn=min(mn,cal(ind+1,1,n,stoneValue));
+            }
+            return dp[ind][turn]=mn;
+        }
+        // return mx;
+    }
+    string stoneGameIII(vector<int>& stoneValue) {
+        memset(dp,-1,sizeof(dp));
+        int n=stoneValue.size();
+        int val=cal(0,1,n,stoneValue);
+
+        int s=0;
+        for(auto i:stoneValue)
+        s+=i;
+
+        // cout<<val<<endl;
+        if(s-val==val)
+        return "Tie";
+        if(s-val>val)
+        return "Bob";
+
+        return "Alice";
+    }
+};
