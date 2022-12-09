@@ -34,7 +34,6 @@ public:
             }
             return dp[ind][turn]=mn;
         }
-        // return mx;
     }
     string stoneGameIII(vector<int>& stoneValue) {
         memset(dp,-1,sizeof(dp));
