@@ -1,0 +1,46 @@
+https://leetcode.com/problems/stone-game-ii
+
+class Solution {
+public:
+int dp[105][105][2];
+    int cal(int ind,int m,int turn,int n,vector<int>& piles){
+
+        if(ind>=n)
+        return 0;
+
+        if(dp[ind][m][turn]!=-1)
+        return dp[ind][m][turn];
+        int mxind=ind+(2*m);
+
+        int mx=-1;
+        int mn=INT_MAX;
+        if(turn){
+            for(int i=ind;i<min(n,mxind);i++){
+                int taken=i-ind+1;
+                if(ind==0)
+                mx=max(mx,piles[i]+cal(i+1,max(taken,m),0,n,piles));
+                else
+                mx=max(mx,(piles[i]-piles[ind-1])+cal(i+1,max(taken,m),0,n,piles));
+                // cout<<mx<<" "<<i<<" "<<m<<" "<<mxind<<endl;              
+            }
+        }else{
+            for(int i=ind;i<min(n,mxind);i++){
+                int taken=i-ind+1;
+                mn=min(mn,0+cal(i+1,max(taken,m),1,n,piles));              
+            }
+        }
+        if(turn)
+        return dp[ind][m][turn]=mx;
+        else
+        return dp[ind][m][turn]=mn;
+    }
+    int stoneGameII(vector<int>& piles) {
+        memset(dp,-1,sizeof(dp));
+        int n=piles.size();
+        for(int i=1;i<n;i++)
+        piles[i]+=piles[i-1];
+
+        int total=cal(0,1,1,n,piles);
+        return total;
+    }
+};
