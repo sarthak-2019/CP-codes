@@ -1,0 +1,28 @@
+https://leetcode.com/problems/stone-game-iv/
+
+
+class Solution {
+public:
+    static const int N=1e5+5;
+    int dp[N];
+    int cal(int n){
+        if(n<=0)
+        return false;
+
+        if(dp[n]!=-1)
+        return dp[n];
+        for(int i=1;i*i<=n;i++){
+            int t=i*i;
+
+            if(!cal(n-t)){
+                return dp[n]=true;
+            }
+
+        }
+        return dp[n]=false;
+    }
+    bool winnerSquareGame(int n) {
+        memset(dp,-1,sizeof(dp));
+        return cal(n);
+    }
+};
