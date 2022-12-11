@@ -1,0 +1,28 @@
+https://leetcode.com/problems/jump-game
+
+
+class Solution {
+public:
+    int dp[10005];
+    bool cal(int ind,int n,vector<int>& nums){
+        if(ind==n)
+        return true;
+
+        if(ind>n)
+        return false;
+
+        if(dp[ind]!=-1)
+        return dp[ind];
+
+        for(int j=ind+1;j<=ind+nums[ind];j++){
+           if(cal(j,n,nums))
+           return dp[ind]=true;
+        }
+        return dp[ind]=false;
+    }
+    bool canJump(vector<int>& nums) {
+        memset(dp,-1,sizeof(dp));
+        int n=nums.size();
+        return cal(0,n-1,nums);
+    }
+};
