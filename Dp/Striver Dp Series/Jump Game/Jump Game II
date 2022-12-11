@@ -1,0 +1,24 @@
+https://leetcode.com/problems/jump-game-ii
+
+class Solution {
+public:
+int dp[10005];
+    int cal(int ind,int n,vector<int>& nums){
+        if(ind>=n)
+        return 0;
+
+        if(dp[ind]!=-1)
+        return dp[ind];
+
+        int mn=1e6;
+        for(int j=ind+1;j<=ind+nums[ind];j++){
+            mn=min(mn,1+cal(j,n,nums));
+        }
+        return dp[ind]=mn;
+    }
+    int jump(vector<int>& nums) {
+        memset(dp,-1,sizeof(dp));
+        int n=nums.size();
+        return cal(0,n-1,nums);
+    }
+};
